@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inpathy — System Map</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d10;--bg2:#13131a;
+  --border:rgba(255,255,255,0.07);--border-hi:rgba(255,255,255,0.14);
+  --text:#f0ede8;--muted:#7a7887;--dim:#3a3848;
+  --spine:#c8b8f5;--spine-bg:rgba(200,184,245,0.07);--spine-bd:rgba(200,184,245,0.18);
+  --organ:#8ecfb0;--organ-bg:rgba(142,207,176,0.07);--organ-bd:rgba(142,207,176,0.18);
+  --nerve:#f5c897;--nerve-bg:rgba(245,200,151,0.07);--nerve-bd:rgba(245,200,151,0.18);
+}
+html{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;overflow-x:hidden}
+
+.hd{padding:52px 48px 36px;border-bottom:1px solid var(--border);display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.hd-l h1{font-family:'DM Serif Display',serif;font-size:38px;font-weight:400;line-height:1.1;letter-spacing:-0.3px}
+.hd-l h1 em{font-style:italic;color:var(--spine)}
+.hd-l p{margin-top:8px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:0.03em}
+.oneliner{margin-top:14px;font-size:13px;color:var(--text);font-family:'Syne',sans-serif;font-weight:400;line-height:1.6;max-width:480px;padding:12px 16px;border-left:2px solid var(--spine);background:var(--spine-bg);border-radius:0 6px 6px 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{padding:7px 14px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;transition:all .2s}
+.tab:hover{color:var(--text);border-color:var(--border-hi)}
+.tab.ts{background:var(--spine-bg);color:var(--spine);border-color:var(--spine-bd)}
+.tab.to{background:var(--organ-bg);color:var(--organ);border-color:var(--organ-bd)}
+.tab.tn{background:var(--nerve-bg);color:var(--nerve);border-color:var(--nerve-bd)}
+.tab.ta{background:rgba(255,255,255,0.04);color:var(--text);border-color:var(--border-hi)}
+
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;min-height:calc(100vh - 158px)}
+.col{border-right:1px solid var(--border);padding:40px 36px;transition:opacity .25s}
+.col:last-child{border-right:none}
+.col.dim{opacity:0.12;pointer-events:none}
+
+.badge{display:inline-flex;align-items:center;gap:7px;padding:3px 10px 3px 7px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;font-family:'DM Mono',monospace}
+.badge .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.bs{background:var(--spine-bg);color:var(--spine)}.bs .dot{background:var(--spine)}
+.bo{background:var(--organ-bg);color:var(--organ)}.bo .dot{background:var(--organ)}
+.bn{background:var(--nerve-bg);color:var(--nerve)}.bn .dot{background:var(--nerve)}
+
+.col-title{font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;margin-bottom:4px;line-height:1.2}
+.sc .col-title{color:var(--spine)}.oc .col-title{color:var(--organ)}.nc .col-title{color:var(--nerve)}
+.col-sub{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;line-height:1.65;margin-bottom:30px}
+
+/* SPINE */
+.loop{display:flex;flex-direction:column;gap:3px}
+.step{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:9px;border:1px solid var(--spine-bd);background:var(--spine-bg);transition:all .2s;cursor:default}
+.step:hover{border-color:var(--spine);background:rgba(200,184,245,0.12)}
+.sn{font-family:'DM Mono',monospace;font-size:9px;color:var(--spine);opacity:.5;width:14px;flex-shrink:0;font-weight:500}
+.sc-inner{flex:1}
+.sname{font-size:13px;font-weight:600;color:var(--text);margin-bottom:1px}
+.snote{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace}
+.arr{text-align:center;color:var(--spine);opacity:.25;font-size:11px;padding:1px 0;font-family:'DM Mono',monospace}
+.loop-close{margin-top:16px;padding:10px 14px;border-radius:8px;border:1px dashed var(--spine-bd);display:flex;align-items:center;gap:8px}
+.lc-icon{font-size:11px;color:var(--spine);opacity:.5}
+.lc-txt{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace}
+
+/* ORGANS */
+.mods{display:flex;flex-direction:column;gap:10px}
+.mod{border:1px solid var(--organ-bd);border-radius:10px;background:var(--organ-bg);overflow:hidden;transition:all .2s;cursor:default}
+.mod:hover{border-color:var(--organ);background:rgba(142,207,176,0.11)}
+.mod-hd{padding:13px 15px 8px;display:flex;align-items:center;justify-content:space-between}
+.mod-name{font-size:12px;font-weight:700;color:var(--organ);letter-spacing:0.02em}
+.mod-ct{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)}
+.mod-steps{padding:0 15px 10px;display:flex;flex-wrap:wrap;gap:5px}
+.ms{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);background:rgba(255,255,255,0.03);padding:3px 7px;border-radius:4px;border:1px solid var(--border)}
+.mod-note{padding:0 15px 12px;font-size:10px;font-family:'DM Mono',monospace;color:var(--organ);opacity:.55;line-height:1.5}
+
+/* NERVES */
+.edges{display:flex;flex-direction:column;gap:9px}
+.eg{border:1px solid var(--nerve-bd);border-radius:10px;background:var(--nerve-bg);padding:13px 15px;transition:all .2s}
+.eg:hover{border-color:var(--nerve);background:rgba(245,200,151,0.11)}
+.eg-name{font-size:11px;font-weight:700;color:var(--nerve);margin-bottom:9px;letter-spacing:0.03em}
+.ei{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.ei:last-child{border-bottom:none;padding-bottom:0}
+.et{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);flex:1;line-height:1.5}
+.er{font-size:10px;font-family:'DM Mono',monospace;color:var(--nerve);opacity:.6;text-align:right;flex-shrink:0}
+
+.ft{border-top:1px solid var(--border);padding:18px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.ft-note{font-size:10px;color:var(--dim);font-family:'DM Mono',monospace}
+.mvp{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--organ);background:var(--organ-bg);border:1px solid var(--organ-bd);padding:4px 10px;border-radius:4px;font-family:'DM Mono',monospace}
+
+@media(max-width:860px){
+  .grid{grid-template-columns:1fr}
+  .col{border-right:none;border-bottom:1px solid var(--border)}
+  .hd,.ft{padding-left:24px;padding-right:24px}
+  .col{padding:30px 24px}
+}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div class="hd-l">
+    <h1>Inpathy — <em>System Map</em></h1>
+    <p>3-layer structure · MVP · v1.0</p>
+    <p class="oneliner">Inpathy is a daily emotional check-in system designed to reduce friction and increase awareness between people who care about each other.</p>
+  </div>
+  <div class="tabs">
+    <button class="tab ta" onclick="show('all')">All layers</button>
+    <button class="tab ts" onclick="show('spine')">Spine</button>
+    <button class="tab to" onclick="show('organ')">Organs</button>
+    <button class="tab tn" onclick="show('nerve')">Nerves</button>
+  </div>
+</div>
+
+<div class="grid">
+
+  <!-- SPINE -->
+  <div class="col sc" id="col-spine">
+    <div class="badge bs"><span class="dot"></span>Layer 1 — Spine</div>
+    <div class="col-title">Core loop</div>
+    <div class="col-sub">5 steps. What PMs understand,<br>engineers anchor to, interviewers remember.</div>
+    <div class="loop">
+      <div class="step"><span class="sn">01</span><div class="sc-inner"><div class="sname">Open app</div><div class="snote">Session check on launch</div></div></div>
+      <div class="arr">↓</div>
+      <div class="step"><span class="sn">02</span><div class="sc-inner"><div class="sname">Check in</div><div class="snote">5–10 sec · select mood · submit</div></div></div>
+      <div class="arr">↓</div>
+      <div class="step"><span class="sn">03</span><div class="sc-inner"><div class="sname">View circle</div><div class="snote">See your people + their status</div></div></div>
+      <div class="arr">↓</div>
+      <div class="step"><span class="sn">04</span><div class="sc-inner"><div class="sname">Tap a user</div><div class="snote">Open their journey</div></div></div>
+      <div class="arr">↓</div>
+      <div class="step"><span class="sn">05</span><div class="sc-inner"><div class="sname">Take action</div><div class="snote">Call · add to circle · remove</div></div></div>
+      <div class="loop-close"><span class="lc-icon">↻</span><span class="lc-txt">Returns to circle screen · daily ritual</span></div>
+    </div>
+  </div>
+
+  <!-- ORGANS -->
+  <div class="col oc" id="col-organ">
+    <div class="badge bo"><span class="dot"></span>Layer 2 — Organs</div>
+    <div class="col-title">Module flows</div>
+    <div class="col-sub">4 modules. Engineers zoom in<br>without getting overwhelmed.</div>
+    <div class="mods">
+
+      <div class="mod">
+        <div class="mod-hd"><span class="mod-name">Flows 1–3 · Onboarding</span><span class="mod-ct">3 flows</span></div>
+        <div class="mod-steps">
+          <span class="ms">open app</span><span class="ms">enter phone</span><span class="ms">verify code</span><span class="ms">first name</span><span class="ms">mechanics</span><span class="ms">baseline check-in</span><span class="ms">home</span>
+        </div>
+        <div class="mod-note">New user route only · existing user skips to home</div>
+      </div>
+
+      <div class="mod">
+        <div class="mod-hd"><span class="mod-name">Flow 4 · Ritual check-in</span><span class="mod-ct">1 flow</span></div>
+        <div class="mod-steps">
+          <span class="ms">8–9PM EST window</span><span class="ms">ritual open state</span><span class="ms">select mood</span><span class="ms">optional share</span><span class="ms">submit</span><span class="ms">store mood</span><span class="ms">notification</span>
+        </div>
+        <div class="mod-note">Passive state shown outside ritual window</div>
+      </div>
+
+      <div class="mod">
+        <div class="mod-hd"><span class="mod-name">Flow 5 · Journey + actions</span><span class="mod-ct">1 flow</span></div>
+        <div class="mod-steps">
+          <span class="ms">tap journey</span><span class="ms">mood history</span><span class="ms">triple dots</span><span class="ms">whose journey?</span><span class="ms">yours → settings</span><span class="ms">theirs → call / remove</span>
+        </div>
+        <div class="mod-note">Context-split at action sheet · remove is mutual</div>
+      </div>
+
+      <div class="mod">
+        <div class="mod-hd"><span class="mod-name">Flows 6–8 · Invite system</span><span class="mod-ct">3 flows</span></div>
+        <div class="mod-steps">
+          <span class="ms">sender generates link</span><span class="ms">SMS</span><span class="ms">receiver logged out</span><span class="ms">receiver logged in</span><span class="ms">auto-join</span>
+        </div>
+        <div class="mod-note">Link scoped to one circle · expires 7 days · mutual add</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NERVES -->
+  <div class="col nc" id="col-nerve">
+    <div class="badge bn"><span class="dot"></span>Layer 3 — Nerves</div>
+    <div class="col-title">Edge cases</div>
+    <div class="col-sub">Decision branches + states eng<br>needs to handle explicitly.</div>
+    <div class="edges">
+
+      <div class="eg">
+        <div class="eg-name">Auth + session</div>
+        <div class="ei"><span class="et">Installed · session active</span><span class="er">skip auth → join</span></div>
+        <div class="ei"><span class="et">Installed · session expired</span><span class="er">auth → join</span></div>
+        <div class="ei"><span class="et">Not installed</span><span class="er">download → onboard → join</span></div>
+        <div class="ei"><span class="et">Existing user re-entry</span><span class="er">skip onboarding</span></div>
+      </div>
+
+      <div class="eg">
+        <div class="eg-name">Invite link</div>
+        <div class="ei"><span class="et">Link expires after 7 days</span><span class="er">show expired state</span></div>
+        <div class="ei"><span class="et">Receiver already in circle</span><span class="er">silent no-op → home</span></div>
+        <div class="ei"><span class="et">Link scoped to one circle</span><span class="er">no cross-circle join</span></div>
+        <div class="ei"><span class="et">Mutual add — both sides</span><span class="er">silent · no confirm</span></div>
+      </div>
+
+      <div class="eg">
+        <div class="eg-name">Ritual window</div>
+        <div class="ei"><span class="et">Opens outside 8–9PM EST</span><span class="er">passive state</span></div>
+        <div class="ei"><span class="et">Misses ritual window</span><span class="er">opens 8PM next day</span></div>
+        <div class="ei"><span class="et">Participation notification</span><span class="er">disappears after 8PM EST</span></div>
+      </div>
+
+      <div class="eg">
+        <div class="eg-name">Circle actions</div>
+        <div class="ei"><span class="et">Remove from circle</span><span class="er">mutual · both sides</span></div>
+        <div class="ei"><span class="et">Call action</span><span class="er">native iOS dialer</span></div>
+        <div class="ei"><span class="et">One circle per user (MVP)</span><span class="er">no multi-circle</span></div>
+        <div class="ei"><span class="et">Settings — own journey only</span><span class="er">hidden on others</span></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="ft">
+  <span class="ft-note">Inpathy Design System · Full system flow in FigJam · Techstars '23</span>
+  <span class="mvp">MVP scope</span>
+</div>
+
+<script>
+function show(layer){
+  const s=document.getElementById('col-spine');
+  const o=document.getElementById('col-organ');
+  const n=document.getElementById('col-nerve');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ts','to','tn','ta'));
+  if(layer==='all'){s.classList.remove('dim');o.classList.remove('dim');n.classList.remove('dim');document.querySelectorAll('.tab')[0].classList.add('ta')}
+  else if(layer==='spine'){s.classList.remove('dim');o.classList.add('dim');n.classList.add('dim');document.querySelectorAll('.tab')[1].classList.add('ts')}
+  else if(layer==='organ'){s.classList.add('dim');o.classList.remove('dim');n.classList.add('dim');document.querySelectorAll('.tab')[2].classList.add('to')}
+  else if(layer==='nerve'){s.classList.add('dim');o.classList.add('dim');n.classList.remove('dim');document.querySelectorAll('.tab')[3].classList.add('tn')}
+}
+show('all');
+</script>
+</body>
+</html>
