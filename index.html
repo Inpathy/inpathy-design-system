@@ -208,6 +208,7 @@ body{min-height:100vh;overflow-x:hidden}
     <a class="nav-tab active" onclick="showSection('system-map')">System Map</a>
     <a class="nav-tab" onclick="showSection('backend')">Backend Spec</a>
     <a class="nav-tab" onclick="showSection('full-system')">Full System</a>
+    <a class="nav-tab" onclick="showSection('impl-notes')">Impl Notes</a>
   </div>
   <span class="nav-pill">MVP v1.0</span>
 </nav>
@@ -693,6 +694,142 @@ body{min-height:100vh;overflow-x:hidden}
   </div>
 </div>
 
+<!-- ═══════════════════════════════════
+     SECTION 4 — IMPLEMENTATION NOTES
+═══════════════════════════════════ -->
+<div class="section" id="impl-notes">
+  <div class="fs-wrap">
+    <h1>Inpathy — <em>Impl Notes</em></h1>
+    <div class="bs-meta" style="margin-top:12px">
+      <span class="pill pill-mvp">MVP</span>
+      <span class="pill pill-v">v1.0</span>
+      <span class="pill pill-date">March 2026</span>
+    </div>
+    <div class="fs-desc">Implementation notes, test cases, and locked decisions for engineering. Main risks: ritual timing, notification timing, invite deep-link resume after auth. Validate against test cases before shipping.</div>
+
+    <!-- RITUAL WINDOW -->
+    <div class="fs-group">
+      <div class="fs-group-title">Ritual Window Implementation</div>
+      <div class="rule-block">
+        <div style="color:var(--nerve);font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px">Timing rules</div>
+        <div class="rb-item"><span class="rb-label">window_open_at</span><span class="rb-val">8:00 PM EST</span></div>
+        <div class="rb-item"><span class="rb-label">window_close_at</span><span class="rb-val">9:00 PM EST</span></div>
+        <div class="rb-item"><span class="rb-label">User must enter check-in screen before window_close_at</span><span class="rb-val">required</span></div>
+        <div class="rb-item"><span class="rb-label">Create checkin_session_started_at when user enters check-in screen</span><span class="rb-val">timestamp</span></div>
+        <div class="rb-item"><span class="rb-label">Timer disarms only after checkin_session_started_at exists</span><span class="rb-val">not before</span></div>
+        <div class="rb-item"><span class="rb-label">Notification tap alone</span><span class="rb-val">does NOT create check-in session</span></div>
+        <div class="rb-item"><span class="rb-label">App open alone</span><span class="rb-val">does NOT create check-in session</span></div>
+        <div class="rb-item"><span class="rb-label">checkin_session_started_at ≤ window_close_at</span><span class="rb-val">check-in valid until completed</span></div>
+        <div class="rb-item"><span class="rb-label">User enters after 9:00 PM EST</span><span class="rb-val">new check-in blocked until next cycle</span></div>
+      </div>
+
+      <div class="flow-block">
+        <h3>Ritual timing — test cases</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">1. Enters check-in at 8:59 PM → submits at 9:03 PM</span><span class="fs-step-note" style="color:var(--organ)">ALLOWED</span></div>
+          <div class="fs-step"><span class="fs-step-label">2. Taps notification at 8:59 PM but never enters check-in screen</span><span class="fs-step-note" style="color:var(--red)">NOT ALLOWED</span></div>
+          <div class="fs-step"><span class="fs-step-label">3. Opens app at 8:59 PM but never enters check-in screen</span><span class="fs-step-note" style="color:var(--red)">NOT ALLOWED</span></div>
+          <div class="fs-step"><span class="fs-step-label">4. Enters check-in at 9:01 PM</span><span class="fs-step-note" style="color:var(--red)">BLOCKED</span></div>
+          <div class="fs-step"><span class="fs-step-label">5. Enters at 8:30 PM, leaves app open, submits later</span><span class="fs-step-note" style="color:var(--organ)">ALLOWED — session already started</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="fs-group">
+      <div class="fs-group-title">Notification Implementation</div>
+      <div class="rule-block">
+        <div style="color:var(--nerve);font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px">Notification rules</div>
+        <div class="rb-item"><span class="rb-label">8PM reminder sends once per ritual cycle</span><span class="rb-val">all users</span></div>
+        <div class="rb-item"><span class="rb-label">Circle check-in notifications</span><span class="rb-val">fire immediately on valid submit</span></div>
+        <div class="rb-item"><span class="rb-label">Valid submit includes post-9PM completions</span><span class="rb-val">if session started before 9PM</span></div>
+        <div class="rb-item"><span class="rb-label">Do not batch circle check-in notifications</span><span class="rb-val">send immediately</span></div>
+        <div class="rb-item"><span class="rb-label">Dedupe by</span><span class="rb-val">user_id + ritual_cycle + event_type</span></div>
+        <div class="rb-item"><span class="rb-label">Log all notifications</span><span class="rb-val">notification_events table</span></div>
+      </div>
+
+      <div class="flow-block">
+        <h3>Notifications — test cases</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">1. 8PM reminder sends once to all users</span><span class="fs-step-note" style="color:var(--organ)">EXPECTED</span></div>
+          <div class="fs-step"><span class="fs-step-label">2. Valid check-in at 8:20 PM → circle notification fires immediately</span><span class="fs-step-note" style="color:var(--organ)">EXPECTED</span></div>
+          <div class="fs-step"><span class="fs-step-label">3. Valid check-in at 9:03 PM (entered before 9PM) → circle notification fires</span><span class="fs-step-note" style="color:var(--organ)">EXPECTED</span></div>
+          <div class="fs-step"><span class="fs-step-label">4. Duplicate submit attempt</span><span class="fs-step-note" style="color:var(--red)">no duplicate notification</span></div>
+          <div class="fs-step"><span class="fs-step-label">5. Status dot resets at next 8:00 PM EST cycle</span><span class="fs-step-note" style="color:var(--organ)">EXPECTED</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVITE DEEP-LINK -->
+    <div class="fs-group">
+      <div class="fs-group-title">Invite Deep-Link Implementation</div>
+      <div class="rule-block">
+        <div style="color:var(--nerve);font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px">Token handling rules</div>
+        <div class="rb-item"><span class="rb-label">Persist invite token locally until auth or onboarding completes</span><span class="rb-val">required</span></div>
+        <div class="rb-item"><span class="rb-label">Validate invite token before attempting join</span><span class="rb-val">required</span></div>
+        <div class="rb-item"><span class="rb-label">After auth success → automatically resume pending invite join</span><span class="rb-val">required</span></div>
+        <div class="rb-item"><span class="rb-label">Invite token expired</span><span class="rb-val">show expired state</span></div>
+        <div class="rb-item"><span class="rb-label">Invite token invalid</span><span class="rb-val">show invalid state</span></div>
+        <div class="rb-item"><span class="rb-label">User already in circle</span><span class="rb-val">do nothing · route Home</span></div>
+        <div class="rb-item"><span class="rb-label">Consume token only after successful join or explicit invalidation</span><span class="rb-val">required</span></div>
+      </div>
+
+      <div class="flow-block">
+        <h3>Invite flow — test cases</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">1. App installed + active session + valid link</span><span class="fs-step-note" style="color:var(--organ)">auto-join → Home</span></div>
+          <div class="fs-step"><span class="fs-step-label">2. App installed + expired session + valid link</span><span class="fs-step-note" style="color:var(--organ)">auth → auto-join → Home</span></div>
+          <div class="fs-step"><span class="fs-step-label">3. App not installed + valid link</span><span class="fs-step-note" style="color:var(--organ)">install → onboard/auth → auto-join → Home</span></div>
+          <div class="fs-step"><span class="fs-step-label">4. Invite token expired</span><span class="fs-step-note" style="color:var(--red)">expired state · no join</span></div>
+          <div class="fs-step"><span class="fs-step-label">5. User already in circle opens valid link</span><span class="fs-step-note" style="color:var(--organ)">silent no-op → Home</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECK-IN BEHAVIOR -->
+    <div class="fs-group">
+      <div class="fs-group-title">Check-in Behavior — Test Cases</div>
+      <div class="flow-block">
+        <h3>Check-in validation</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">1. New user signs up during window + completes baseline check-in</span><span class="fs-step-note" style="color:var(--organ)">counts as today's ritual</span></div>
+          <div class="fs-step"><span class="fs-step-label">2. User submits with mood only (no Say More)</span><span class="fs-step-note" style="color:var(--organ)">ALLOWED</span></div>
+          <div class="fs-step"><span class="fs-step-label">3. Say More text over 60 characters</span><span class="fs-step-note" style="color:var(--red)">blocked at limit</span></div>
+          <div class="fs-step"><span class="fs-step-label">4. Second check-in attempt in same ritual window</span><span class="fs-step-note" style="color:var(--red)">BLOCKED</span></div>
+          <div class="fs-step"><span class="fs-step-label">5. Edit or delete submitted check-in</span><span class="fs-step-note" style="color:var(--red)">NOT ALLOWED</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOCKED DECISION -->
+    <div class="fs-group">
+      <div class="fs-group-title">Locked Product Decision</div>
+      <div class="rule-block">
+        <div style="color:var(--spine);font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px">Post-9PM valid submit behavior</div>
+        <div class="rb-item"><span class="rb-label">User entered check-in screen before 9:00 PM EST</span><span class="rb-val">submission valid after 9PM</span></div>
+        <div class="rb-item"><span class="rb-label">Valid post-9PM submit must still store mood</span><span class="rb-val">required</span></div>
+        <div class="rb-item"><span class="rb-label">Valid post-9PM submit must still activate participation indicator</span><span class="rb-val">required</span></div>
+        <div class="rb-item"><span class="rb-label">Valid post-9PM submit must still trigger circle notifications</span><span class="rb-val">required</span></div>
+      </div>
+    </div>
+
+    <!-- ADVISOR NOTE -->
+    <div class="fs-group">
+      <div class="fs-group-title">Advisor Note</div>
+      <div class="flow-block">
+        <h3>Send this with the spec</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">Main implementation risks</span><span class="fs-step-note">ritual timing · notification timing · invite deep-link resume after auth</span></div>
+          <div class="fs-step"><span class="fs-step-label">Use product spec as source of truth</span><span class="fs-step-note">do not invent new behavior</span></div>
+          <div class="fs-step"><span class="fs-step-label">Validate against test cases before shipping</span><span class="fs-step-note">all 4 sections above</span></div>
+          <div class="fs-step"><span class="fs-step-label">If something technical must be decided</span><span class="fs-step-note">choose simplest approach that preserves product behavior</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="ft">
   <span class="ft-note">Inpathy · MVP v1.0 · March 2026 · Techstars '23</span>
   <span class="pill pill-mvp">Handoff ready</span>
@@ -707,6 +844,7 @@ function showSection(id){
   if(id==='system-map') tabs[0].classList.add('active');
   else if(id==='backend') tabs[1].classList.add('active');
   else if(id==='full-system') tabs[2].classList.add('active');
+  else if(id==='impl-notes') tabs[3].classList.add('active');
   window.scrollTo(0,0);
 }
 
