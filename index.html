@@ -3,38 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inpathy — System Map</title>
+<title>Inpathy — Product Spec</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0d0d10;--bg2:#13131a;
+  --bg:#0d0d10;--bg2:#13131a;--bg3:#1a1a24;
   --border:rgba(255,255,255,0.07);--border-hi:rgba(255,255,255,0.14);
   --text:#f0ede8;--muted:#7a7887;--dim:#3a3848;
   --spine:#c8b8f5;--spine-bg:rgba(200,184,245,0.07);--spine-bd:rgba(200,184,245,0.18);
   --organ:#8ecfb0;--organ-bg:rgba(142,207,176,0.07);--organ-bd:rgba(142,207,176,0.18);
   --nerve:#f5c897;--nerve-bg:rgba(245,200,151,0.07);--nerve-bd:rgba(245,200,151,0.18);
+  --red:#f5a0a0;--red-bg:rgba(245,160,160,0.07);--red-bd:rgba(245,160,160,0.18);
+  --nav-h:56px;
 }
-html{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;-webkit-font-smoothing:antialiased}
+html{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
 body{min-height:100vh;overflow-x:hidden}
 
-.hd{padding:52px 48px 36px;border-bottom:1px solid var(--border);display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.hd-l h1{font-family:'DM Serif Display',serif;font-size:38px;font-weight:400;line-height:1.1;letter-spacing:-0.3px}
-.hd-l h1 em{font-style:italic;color:var(--spine)}
-.hd-l p{margin-top:8px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:0.03em}
-.oneliner{margin-top:14px;font-size:13px;color:var(--text);font-family:'Syne',sans-serif;font-weight:400;line-height:1.6;max-width:480px;padding:12px 16px;border-left:2px solid var(--spine);background:var(--spine-bg);border-radius:0 6px 6px 0}
-.tabs{display:flex;gap:6px;flex-wrap:wrap}
-.tab{padding:7px 14px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;transition:all .2s}
-.tab:hover{color:var(--text);border-color:var(--border-hi)}
-.tab.ts{background:var(--spine-bg);color:var(--spine);border-color:var(--spine-bd)}
-.tab.to{background:var(--organ-bg);color:var(--organ);border-color:var(--organ-bd)}
-.tab.tn{background:var(--nerve-bg);color:var(--nerve);border-color:var(--nerve-bd)}
-.tab.ta{background:rgba(255,255,255,0.04);color:var(--text);border-color:var(--border-hi)}
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(13,13,16,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;z-index:100}
+.nav-brand{font-family:'DM Serif Display',serif;font-size:17px;font-weight:400;color:var(--text)}
+.nav-brand em{font-style:italic;color:var(--spine)}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{padding:6px 14px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--muted);font-family:'Syne',sans-serif;transition:all .2s;text-decoration:none}
+.nav-tab:hover{color:var(--text);border-color:var(--border-hi)}
+.nav-tab.active{background:var(--spine-bg);color:var(--spine);border-color:var(--spine-bd)}
+.nav-pill{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--organ);background:var(--organ-bg);border:1px solid var(--organ-bd);padding:3px 8px;border-radius:4px;font-family:'DM Mono',monospace}
 
-.grid{display:grid;grid-template-columns:1fr 1fr 1fr;min-height:calc(100vh - 158px)}
-.col{border-right:1px solid var(--border);padding:40px 36px;transition:opacity .25s}
-.col:last-child{border-right:none}
-.col.dim{opacity:0.12;pointer-events:none}
+/* SECTIONS */
+.section{display:none;padding-top:var(--nav-h)}
+.section.active{display:block}
+
+/* ═══════════════════════════════════
+   SECTION 1 — SYSTEM MAP
+═══════════════════════════════════ */
+.sm-hero{padding:56px 48px 40px;border-bottom:1px solid var(--border)}
+.sm-hero h1{font-family:'DM Serif Display',serif;font-size:38px;font-weight:400;line-height:1.1;letter-spacing:-0.3px}
+.sm-hero h1 em{font-style:italic;color:var(--spine)}
+.sm-hero p{margin-top:8px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+.sm-oneliner{margin-top:14px;font-size:13px;color:var(--text);line-height:1.6;max-width:520px;padding:12px 16px;border-left:2px solid var(--spine);background:var(--spine-bg);border-radius:0 6px 6px 0}
+.sm-layer-tabs{display:flex;gap:6px;margin-top:20px;flex-wrap:wrap}
+.ltab{padding:7px 14px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Syne',sans-serif;transition:all .2s}
+.ltab:hover{color:var(--text);border-color:var(--border-hi)}
+.ltab.lta{background:rgba(255,255,255,0.04);color:var(--text);border-color:var(--border-hi)}
+.ltab.lts{background:var(--spine-bg);color:var(--spine);border-color:var(--spine-bd)}
+.ltab.lto{background:var(--organ-bg);color:var(--organ);border-color:var(--organ-bd)}
+.ltab.ltn{background:var(--nerve-bg);color:var(--nerve);border-color:var(--nerve-bd)}
+
+.sm-grid{display:grid;grid-template-columns:1fr 1fr 1fr;min-height:calc(100vh - 200px)}
+.sm-col{border-right:1px solid var(--border);padding:40px 36px;transition:opacity .25s}
+.sm-col:last-child{border-right:none}
+.sm-col.dim{opacity:0.12;pointer-events:none}
 
 .badge{display:inline-flex;align-items:center;gap:7px;padding:3px 10px 3px 7px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:18px;font-family:'DM Mono',monospace}
 .badge .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
@@ -44,9 +63,8 @@ body{min-height:100vh;overflow-x:hidden}
 
 .col-title{font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;margin-bottom:4px;line-height:1.2}
 .sc .col-title{color:var(--spine)}.oc .col-title{color:var(--organ)}.nc .col-title{color:var(--nerve)}
-.col-sub{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;line-height:1.65;margin-bottom:30px}
+.col-sub{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;line-height:1.65;margin-bottom:28px}
 
-/* SPINE */
 .loop{display:flex;flex-direction:column;gap:3px}
 .step{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:9px;border:1px solid var(--spine-bd);background:var(--spine-bg);transition:all .2s;cursor:default}
 .step:hover{border-color:var(--spine);background:rgba(200,184,245,0.12)}
@@ -59,7 +77,6 @@ body{min-height:100vh;overflow-x:hidden}
 .lc-icon{font-size:11px;color:var(--spine);opacity:.5}
 .lc-txt{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace}
 
-/* ORGANS */
 .mods{display:flex;flex-direction:column;gap:10px}
 .mod{border:1px solid var(--organ-bd);border-radius:10px;background:var(--organ-bg);overflow:hidden;transition:all .2s;cursor:default}
 .mod:hover{border-color:var(--organ);background:rgba(142,207,176,0.11)}
@@ -70,7 +87,6 @@ body{min-height:100vh;overflow-x:hidden}
 .ms{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);background:rgba(255,255,255,0.03);padding:3px 7px;border-radius:4px;border:1px solid var(--border)}
 .mod-note{padding:0 15px 12px;font-size:10px;font-family:'DM Mono',monospace;color:var(--organ);opacity:.55;line-height:1.5}
 
-/* NERVES */
 .edges{display:flex;flex-direction:column;gap:9px}
 .eg{border:1px solid var(--nerve-bd);border-radius:10px;background:var(--nerve-bg);padding:13px 15px;transition:all .2s}
 .eg:hover{border-color:var(--nerve);background:rgba(245,200,151,0.11)}
@@ -80,179 +96,632 @@ body{min-height:100vh;overflow-x:hidden}
 .et{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);flex:1;line-height:1.5}
 .er{font-size:10px;font-family:'DM Mono',monospace;color:var(--nerve);opacity:.6;text-align:right;flex-shrink:0}
 
-.ft{border-top:1px solid var(--border);padding:18px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+/* ═══════════════════════════════════
+   SECTION 2 — BACKEND SPEC
+═══════════════════════════════════ */
+.bs-wrap{max-width:900px;margin:0 auto;padding:56px 48px 80px}
+.bs-wrap h1{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;line-height:1.1;letter-spacing:-0.3px}
+.bs-wrap h1 em{font-style:italic;color:var(--spine)}
+.bs-meta{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.pill{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px;font-family:'DM Mono',monospace}
+.pill-mvp{background:var(--organ-bg);color:var(--organ);border:1px solid var(--organ-bd)}
+.pill-v{background:var(--spine-bg);color:var(--spine);border:1px solid var(--spine-bd)}
+.pill-date{background:rgba(255,255,255,0.04);color:var(--muted);border:1px solid var(--border)}
+.bs-desc{margin-top:16px;font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;line-height:1.7;padding:12px 16px;border-left:2px solid var(--spine);background:var(--spine-bg);border-radius:0 6px 6px 0;max-width:600px}
+
+.bsec{margin-bottom:40px}
+.bsec-label{display:inline-flex;align-items:center;gap:7px;padding:3px 10px 3px 7px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;font-family:'DM Mono',monospace}
+.bsec-label .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.bl-auth{background:var(--spine-bg);color:var(--spine)}.bl-auth .dot{background:var(--spine)}
+.bl-ci{background:var(--organ-bg);color:var(--organ)}.bl-ci .dot{background:var(--organ)}
+.bl-cj{background:var(--nerve-bg);color:var(--nerve)}.bl-cj .dot{background:var(--nerve)}
+.bl-no{background:var(--red-bg);color:var(--red)}.bl-no .dot{background:var(--red)}
+.bl-ep{background:rgba(255,255,255,0.04);color:var(--muted);border:1px solid var(--border)}.bl-ep .dot{background:var(--muted)}
+
+.bsec-title{font-family:'DM Serif Display',serif;font-size:20px;font-weight:400;margin-bottom:16px;color:var(--text)}
+.divider{border:none;border-top:1px solid var(--border);margin:36px 0}
+
+.cards{display:flex;flex-direction:column;gap:8px}
+.card{border-radius:10px;padding:14px 18px;display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.card-q{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;flex:1;line-height:1.6}
+.card-a{font-size:12px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0;text-align:right}
+.card-note{font-size:10px;font-family:'DM Mono',monospace;margin-top:4px;opacity:.6;line-height:1.5}
+.ca{background:var(--spine-bg);border:1px solid var(--spine-bd)}.ca .card-a{color:var(--spine)}
+.cc{background:var(--organ-bg);border:1px solid var(--organ-bd)}.cc .card-a{color:var(--organ)}
+.cj{background:var(--nerve-bg);border:1px solid var(--nerve-bd)}.cj .card-a{color:var(--nerve)}
+.cn{background:var(--red-bg);border:1px solid var(--red-bd)}.cn .card-a{color:var(--red)}
+
+.endpoints{display:flex;flex-direction:column;gap:6px}
+.ep{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;display:flex;align-items:baseline;gap:12px}
+.ep-method{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.06em;min-width:44px;flex-shrink:0}
+.ep-post{color:var(--organ)}.ep-get{color:var(--spine)}.ep-patch{color:var(--nerve)}
+.ep-path{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);flex:1}
+.ep-desc{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-align:right;flex-shrink:0}
+
+.rules{display:flex;flex-direction:column;gap:6px}
+.rule{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;display:flex;align-items:baseline;gap:12px}
+.rule-trigger{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);flex:1;line-height:1.5}
+.rule-result{font-family:'DM Mono',monospace;font-size:11px;color:var(--nerve);text-align:right;flex-shrink:0}
+
+/* ═══════════════════════════════════
+   SECTION 3 — FULL SYSTEM
+═══════════════════════════════════ */
+.fs-wrap{max-width:960px;margin:0 auto;padding:56px 48px 80px}
+.fs-wrap h1{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;line-height:1.1;letter-spacing:-0.3px}
+.fs-wrap h1 em{font-style:italic;color:var(--organ)}
+.fs-desc{margin-top:16px;font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;line-height:1.7;padding:12px 16px;border-left:2px solid var(--organ);background:var(--organ-bg);border-radius:0 6px 6px 0;max-width:600px;margin-bottom:40px}
+
+.fs-group{margin-bottom:40px}
+.fs-group-title{font-family:'DM Serif Display',serif;font-size:20px;font-weight:400;color:var(--organ);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--organ-bd)}
+.fs-label{display:inline-flex;align-items:center;gap:7px;padding:3px 10px 3px 7px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px;font-family:'DM Mono',monospace;background:var(--organ-bg);color:var(--organ)}
+.fs-label .dot{width:5px;height:5px;border-radius:50%;background:var(--organ);flex-shrink:0}
+
+.flow-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:10px}
+.flow-block h3{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;font-family:'Syne',sans-serif;letter-spacing:0.02em}
+.flow-steps{display:flex;flex-direction:column;gap:4px}
+.fs-step{display:flex;align-items:baseline;gap:10px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.fs-step:last-child{border-bottom:none}
+.fs-step-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);flex:1;line-height:1.5}
+.fs-step-note{font-size:10px;font-family:'DM Mono',monospace;color:var(--organ);opacity:.6;text-align:right;flex-shrink:0}
+
+.rule-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:10px}
+.rule-block h3{font-size:12px;font-weight:700;color:var(--nerve);margin-bottom:10px;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase}
+.rb-item{display:flex;align-items:baseline;gap:10px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.rb-item:last-child{border-bottom:none}
+.rb-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);flex:1;line-height:1.5}
+.rb-val{font-size:10px;font-family:'DM Mono',monospace;color:var(--nerve);opacity:.65;text-align:right;flex-shrink:0}
+
+.field-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:10px}
+.field-block h3{font-size:12px;font-weight:700;color:var(--spine);margin-bottom:10px;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase}
+.fb-field{display:flex;align-items:baseline;gap:10px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.fb-field:last-child{border-bottom:none}
+.fb-name{font-size:11px;font-family:'DM Mono',monospace;color:var(--text);flex:1}
+.fb-type{font-size:10px;font-family:'DM Mono',monospace;color:var(--spine);opacity:.6;text-align:right;flex-shrink:0}
+
+.lang-block{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:10px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.lang-col h3{font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px}
+.lang-use h3{color:var(--organ)}.lang-no h3{color:var(--red)}
+.lang-item{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.lang-item:last-child{border-bottom:none}
+
+/* FOOTER */
+.ft{border-top:1px solid var(--border);padding:20px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .ft-note{font-size:10px;color:var(--dim);font-family:'DM Mono',monospace}
-.mvp{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--organ);background:var(--organ-bg);border:1px solid var(--organ-bd);padding:4px 10px;border-radius:4px;font-family:'DM Mono',monospace}
 
 @media(max-width:860px){
-  .grid{grid-template-columns:1fr}
-  .col{border-right:none;border-bottom:1px solid var(--border)}
-  .hd,.ft{padding-left:24px;padding-right:24px}
-  .col{padding:30px 24px}
+  .sm-grid{grid-template-columns:1fr}
+  .sm-col{border-right:none;border-bottom:1px solid var(--border)}
+  .nav{padding:0 20px}
+  .nav-tab span{display:none}
+  .sm-hero,.bs-wrap,.fs-wrap{padding-left:24px;padding-right:24px}
+  .ft{padding-left:24px;padding-right:24px}
+  .lang-block{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<div class="hd">
-  <div class="hd-l">
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">Inpathy — <em>Spec</em></div>
+  <div class="nav-tabs">
+    <a class="nav-tab active" onclick="showSection('system-map')">System Map</a>
+    <a class="nav-tab" onclick="showSection('backend')">Backend Spec</a>
+    <a class="nav-tab" onclick="showSection('full-system')">Full System</a>
+  </div>
+  <span class="nav-pill">MVP v1.0</span>
+</nav>
+
+<!-- ═══════════════════════════════════
+     SECTION 1 — SYSTEM MAP
+═══════════════════════════════════ -->
+<div class="section active" id="system-map">
+  <div class="sm-hero">
     <h1>Inpathy — <em>System Map</em></h1>
     <p>3-layer structure · MVP · v1.0</p>
-    <p class="oneliner">Inpathy is a daily emotional check-in system designed to reduce friction and increase awareness between people who care about each other.</p>
+    <div class="sm-oneliner">Inpathy is a daily emotional check-in system designed to reduce friction and increase awareness between people who care about each other.</div>
+    <div class="sm-layer-tabs">
+      <button class="ltab lta" onclick="showLayer('all')">All layers</button>
+      <button class="ltab lts" onclick="showLayer('spine')">Spine</button>
+      <button class="ltab lto" onclick="showLayer('organ')">Organs</button>
+      <button class="ltab ltn" onclick="showLayer('nerve')">Nerves</button>
+    </div>
   </div>
-  <div class="tabs">
-    <button class="tab ta" onclick="show('all')">All layers</button>
-    <button class="tab ts" onclick="show('spine')">Spine</button>
-    <button class="tab to" onclick="show('organ')">Organs</button>
-    <button class="tab tn" onclick="show('nerve')">Nerves</button>
+
+  <div class="sm-grid">
+    <!-- SPINE -->
+    <div class="sm-col sc" id="col-spine">
+      <div class="badge bs"><span class="dot"></span>Layer 1 — Spine</div>
+      <div class="col-title">Core loop</div>
+      <div class="col-sub">5 steps. What PMs understand,<br>engineers anchor to, interviewers remember.</div>
+      <div class="loop">
+        <div class="step"><span class="sn">01</span><div class="sc-inner"><div class="sname">Open app</div><div class="snote">Session check on launch</div></div></div>
+        <div class="arr">↓</div>
+        <div class="step"><span class="sn">02</span><div class="sc-inner"><div class="sname">Check in</div><div class="snote">Select mood → say more (optional) → submit</div></div></div>
+        <div class="arr">↓</div>
+        <div class="step"><span class="sn">03</span><div class="sc-inner"><div class="sname">View circle</div><div class="snote">See your circle + their mood</div></div></div>
+        <div class="arr">↓</div>
+        <div class="step"><span class="sn">04</span><div class="sc-inner"><div class="sname">Tap a user</div><div class="snote">Open their journey</div></div></div>
+        <div class="arr">↓</div>
+        <div class="step"><span class="sn">05</span><div class="sc-inner"><div class="sname">Take action (if needed)</div><div class="snote">Call · remove</div></div></div>
+        <div class="loop-close"><span class="lc-icon">↻</span><span class="lc-txt">Returns to circle · repeats daily</span></div>
+      </div>
+    </div>
+
+    <!-- ORGANS -->
+    <div class="sm-col oc" id="col-organ">
+      <div class="badge bo"><span class="dot"></span>Layer 2 — Organs</div>
+      <div class="col-title">Module flows</div>
+      <div class="col-sub">5 modules. Engineers zoom in<br>without getting overwhelmed.</div>
+      <div class="mods">
+        <div class="mod">
+          <div class="mod-hd"><span class="mod-name">Flows 1–3 · Onboarding</span><span class="mod-ct">3 flows</span></div>
+          <div class="mod-steps"><span class="ms">open app</span><span class="ms">enter phone</span><span class="ms">verify code</span><span class="ms">first name</span><span class="ms">mechanics</span><span class="ms">baseline check-in</span><span class="ms">home</span></div>
+          <div class="mod-note">New user route only · existing user skips to home</div>
+        </div>
+        <div class="mod">
+          <div class="mod-hd"><span class="mod-name">Flow 4 · Ritual check-in</span><span class="mod-ct">1 flow</span></div>
+          <div class="mod-steps"><span class="ms">8–9PM EST window</span><span class="ms">ritual open state</span><span class="ms">select mood</span><span class="ms">say more (optional)</span><span class="ms">skip available</span><span class="ms">submit</span><span class="ms">store mood</span><span class="ms">notification</span></div>
+          <div class="mod-note">Say more: 60 char max · progress indicator · hard stop at limit · entering check-in → timer disarms · user can finish after 9PM · resets at 8PM next day</div>
+        </div>
+        <div class="mod">
+          <div class="mod-hd"><span class="mod-name">Circle · Core product</span><span class="mod-ct">1 flow</span></div>
+          <div class="mod-steps"><span class="ms">view circle</span><span class="ms">see moods + status dot</span><span class="ms">filter</span><span class="ms">tap user</span></div>
+          <div class="mod-note">Status dot = user checked in this window · passive state outside window</div>
+        </div>
+        <div class="mod">
+          <div class="mod-hd"><span class="mod-name">Flow 5 · Journey + actions</span><span class="mod-ct">1 flow</span></div>
+          <div class="mod-steps"><span class="ms">tap journey</span><span class="ms">mood history</span><span class="ms">triple dots</span><span class="ms">whose journey?</span><span class="ms">yours → settings</span><span class="ms">theirs → call / remove</span></div>
+          <div class="mod-note">Context-split at action sheet · remove is mutual</div>
+        </div>
+        <div class="mod">
+          <div class="mod-hd"><span class="mod-name">Flows 6–8 · Invite system</span><span class="mod-ct">3 flows</span></div>
+          <div class="mod-steps"><span class="ms">sender generates link</span><span class="ms">SMS</span><span class="ms">receiver logged out</span><span class="ms">receiver logged in</span><span class="ms">auto-join</span></div>
+          <div class="mod-note">Link scoped to one circle · expires 7 days · mutual add</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NERVES -->
+    <div class="sm-col nc" id="col-nerve">
+      <div class="badge bn"><span class="dot"></span>Layer 3 — Nerves</div>
+      <div class="col-title">Edge cases</div>
+      <div class="col-sub">Decision branches + states eng<br>needs to handle explicitly.</div>
+      <div class="edges">
+        <div class="eg">
+          <div class="eg-name">Auth + session</div>
+          <div class="ei"><span class="et">Installed · session active</span><span class="er">skip auth → join</span></div>
+          <div class="ei"><span class="et">Installed · session expired</span><span class="er">auth → join</span></div>
+          <div class="ei"><span class="et">Not installed</span><span class="er">download → onboard → join</span></div>
+          <div class="ei"><span class="et">Existing user re-entry</span><span class="er">skip onboarding</span></div>
+        </div>
+        <div class="eg">
+          <div class="eg-name">Invite link</div>
+          <div class="ei"><span class="et">Link expires after 7 days</span><span class="er">show expired state</span></div>
+          <div class="ei"><span class="et">Already in circle</span><span class="er">silent no-op → home</span></div>
+          <div class="ei"><span class="et">Auto-join</span><span class="er">only after auth</span></div>
+          <div class="ei"><span class="et">Mutual add / remove</span><span class="er">both sides · silent</span></div>
+        </div>
+        <div class="eg">
+          <div class="eg-name">Ritual entry rule</div>
+          <div class="ei"><span class="et">8:00–9:00 PM = entry window</span><span class="er">EST only</span></div>
+          <div class="ei"><span class="et">Timer disarms only after user enters the check-in screen</span><span class="er">not on tap · not on app open</span></div>
+          <div class="ei"><span class="et">User can complete after 9:00 PM</span><span class="er">once inside</span></div>
+          <div class="ei"><span class="et">Session resets at next 8:00 PM cycle</span><span class="er">daily</span></div>
+        </div>
+        <div class="eg">
+          <div class="eg-name">Status dot</div>
+          <div class="ei"><span class="et">Indicates user has checked in during current window</span><span class="er">resets each cycle</span></div>
+        </div>
+        <div class="eg">
+          <div class="eg-name">Avatar fallback</div>
+          <div class="ei"><span class="et">No photo uploaded</span><span class="er">first-name initial</span></div>
+          <div class="ei"><span class="et">Avatar color</span><span class="er">latest mood · updates on check-in</span></div>
+          <div class="ei"><span class="et">No mood yet</span><span class="er">neutral default</span></div>
+          <div class="ei"><span class="et">Photo uploaded</span><span class="er">overrides initial + color</span></div>
+        </div>
+        <div class="eg">
+          <div class="eg-name">MVP constraints</div>
+          <div class="ei"><span class="et">One circle per user</span><span class="er">no multi-circle</span></div>
+          <div class="ei"><span class="et">No in-app messaging</span><span class="er">MVP scope</span></div>
+          <div class="ei"><span class="et">Native call only</span><span class="er">iOS dialer</span></div>
+          <div class="ei"><span class="et">Settings — own journey only</span><span class="er">hidden on others</span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="grid">
+<!-- ═══════════════════════════════════
+     SECTION 2 — BACKEND SPEC
+═══════════════════════════════════ -->
+<div class="section" id="backend">
+  <div class="bs-wrap">
+    <h1>Inpathy — <em>Backend Spec</em></h1>
+    <div class="bs-meta">
+      <span class="pill pill-mvp">MVP</span>
+      <span class="pill pill-v">v1.0</span>
+      <span class="pill pill-date">March 2026</span>
+    </div>
+    <div class="bs-desc">All locked backend decisions for MVP implementation. Source of truth for engineering and LLM-assisted development.</div>
 
-  <!-- SPINE -->
-  <div class="col sc" id="col-spine">
-    <div class="badge bs"><span class="dot"></span>Layer 1 — Spine</div>
-    <div class="col-title">Core loop</div>
-    <div class="col-sub">5 steps. What PMs understand,<br>engineers anchor to, interviewers remember.</div>
-    <div class="loop">
-      <div class="step"><span class="sn">01</span><div class="sc-inner"><div class="sname">Open app</div><div class="snote">Session check on launch</div></div></div>
-      <div class="arr">↓</div>
-      <div class="step"><span class="sn">02</span><div class="sc-inner"><div class="sname">Check in</div><div class="snote">Select mood → say more (optional) → submit</div></div></div>
-      <div class="arr">↓</div>
-      <div class="step"><span class="sn">03</span><div class="sc-inner"><div class="sname">View circle</div><div class="snote">See your circle + their mood</div></div></div>
-      <div class="arr">↓</div>
-      <div class="step"><span class="sn">04</span><div class="sc-inner"><div class="sname">Tap a user</div><div class="snote">Open their journey</div></div></div>
-      <div class="arr">↓</div>
-      <div class="step"><span class="sn">05</span><div class="sc-inner"><div class="sname">Take action (if needed)</div><div class="snote">Call · remove</div></div></div>
-      <div class="loop-close"><span class="lc-icon">↻</span><span class="lc-txt">Returns to circle · repeats daily</span></div>
+    <div class="bsec">
+      <div class="bsec-label bl-auth"><span class="dot"></span>Auth + User</div>
+      <div class="bsec-title">Authentication decisions</div>
+      <div class="cards">
+        <div class="card ca"><div><div class="card-q">Q1 · Stay logged in after phone + OTP verification?</div><div class="card-note">Determines session persistence · affects re-auth UX</div></div><div class="card-a">YES</div></div>
+        <div class="card ca"><div><div class="card-q">Q2 · Required fields at signup?</div><div class="card-note">First name + phone number · minimum account object</div></div><div class="card-a">First name + phone</div></div>
+        <div class="card ca"><div><div class="card-q">Q3 · Can users edit name and photo after signup?</div><div class="card-note">First name · last name (optional) · profile photo · all editable post-signup</div></div><div class="card-a">YES</div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="bsec">
+      <div class="bsec-label bl-ci"><span class="dot"></span>Check-in</div>
+      <div class="bsec-title">Check-in decisions</div>
+      <div class="cards">
+        <div class="card cc"><div><div class="card-q">Q4 · Can users edit or delete a check-in after submitting?</div><div class="card-note">Once submitted — mood is locked · no edit · no delete</div></div><div class="card-a">NO</div></div>
+        <div class="card cc"><div><div class="card-q">Q5 · One check-in per ritual window max?</div><div class="card-note">User can only submit once during 8–9PM window · reject duplicates server-side</div></div><div class="card-a">ONCE</div></div>
+        <div class="card cc"><div><div class="card-q">Q6 · User signs up during ritual window — does check-in count?</div><div class="card-note">Signs up at 8:15PM → baseline check-in counts as today's ritual check-in</div></div><div class="card-a">YES — counts as today's</div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="bsec">
+      <div class="bsec-label bl-cj"><span class="dot"></span>Circle + Journey</div>
+      <div class="bsec-title">Circle + journey decisions</div>
+      <div class="cards">
+        <div class="card cj"><div><div class="card-q">Q7 · If user misses the window — does last mood stay visible?</div><div class="card-note">Last mood persists on Circle screen · status dot resets · no blank state</div></div><div class="card-a">YES — last mood stays</div></div>
+        <div class="card cj"><div><div class="card-q">Q8 · What does the status dot mean?</div><div class="card-note">Appears when user submits mood during 8–9PM window · resets each cycle</div></div><div class="card-a">Checked in today 8–9PM</div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="bsec">
+      <div class="bsec-label bl-no"><span class="dot"></span>Notifications</div>
+      <div class="bsec-title">Notification decisions</div>
+      <div class="cards">
+        <div class="card cn"><div><div class="card-q">Q9 · Does 8PM reminder go to everyone or only unchecked users?</div><div class="card-note">Send to all users · no filtering by check-in status</div></div><div class="card-a">EVERYONE</div></div>
+        <div class="card cn"><div><div class="card-q">Q10 · Notify users when someone in circle checks in?</div><div class="card-note">In-circle check-in notification is MVP · build now</div></div><div class="card-a">YES — MVP</div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="bsec">
+      <div class="bsec-label bl-ep"><span class="dot"></span>API Endpoints</div>
+      <div class="bsec-title">Derived from locked decisions</div>
+      <div class="endpoints">
+        <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/auth/phone</span><span class="ep-desc">send OTP to phone number</span></div>
+        <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/auth/verify</span><span class="ep-desc">validate OTP · return session token</span></div>
+        <div class="ep"><span class="ep-method ep-get">GET</span><span class="ep-path">/auth/session</span><span class="ep-desc">check active session validity</span></div>
+        <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/auth/signout</span><span class="ep-desc">clear session token</span></div>
+        <div class="ep"><span class="ep-method ep-get">GET</span><span class="ep-path">/user/profile</span><span class="ep-desc">fetch user profile</span></div>
+        <div class="ep"><span class="ep-method ep-patch">PATCH</span><span class="ep-path">/user/profile</span><span class="ep-desc">update name · photo</span></div>
+        <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/checkin</span><span class="ep-desc">submit mood · say more · timestamp</span></div>
+        <div class="ep"><span class="ep-method ep-get">GET</span><span class="ep-path">/checkin/window</span><span class="ep-desc">check if ritual window is active</span></div>
+        <div class="ep"><span class="ep-method ep-get">GET</span><span class="ep-path">/checkin/history/:userId</span><span class="ep-desc">fetch check-in history ordered newest first</span></div>
+        <div class="ep"><span class="ep-method ep-get">GET</span><span class="ep-path">/circle</span><span class="ep-desc">fetch members · latest mood · status dot</span></div>
+        <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/circle/invite</span><span class="ep-desc">generate custom link · set 7-day expiry</span></div>
+        <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/circle/join</span><span class="ep-desc">auto-join · mutual add · after auth only</span></div>
+        <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/circle/remove</span><span class="ep-desc">mutual remove · both sides</span></div>
+        <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/notifications/send-reminder</span><span class="ep-desc">8PM ritual reminder · all users</span></div>
+        <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/notifications/checkin</span><span class="ep-desc">notify circle when member checks in</span></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="bsec">
+      <div class="bsec-label bl-ep"><span class="dot"></span>System Rules</div>
+      <div class="bsec-title">Behavior eng must enforce</div>
+      <div class="rules">
+        <div class="rule"><span class="rule-trigger">One circle per user</span><span class="rule-result">no multi-circle in MVP</span></div>
+        <div class="rule"><span class="rule-trigger">All circle relationships are mutual</span><span class="rule-result">add = both added · remove = both removed</span></div>
+        <div class="rule"><span class="rule-trigger">Auto-join only after auth success</span><span class="rule-result">never before token is confirmed</span></div>
+        <div class="rule"><span class="rule-trigger">Invite link valid for 7 days</span><span class="rule-result">show expired state after cutoff</span></div>
+        <div class="rule"><span class="rule-trigger">Receiver already in circle</span><span class="rule-result">silent no-op · land on home</span></div>
+        <div class="rule"><span class="rule-trigger">Check-in locked after submit</span><span class="rule-result">no edit · no delete</span></div>
+        <div class="rule"><span class="rule-trigger">One check-in per ritual window</span><span class="rule-result">validate server-side · reject duplicates</span></div>
+        <div class="rule"><span class="rule-trigger">Signup during ritual window</span><span class="rule-result">baseline check-in counts as today's ritual</span></div>
+        <div class="rule"><span class="rule-trigger">Missed ritual window</span><span class="rule-result">last mood stays visible · status dot resets</span></div>
+        <div class="rule"><span class="rule-trigger">Say more field</span><span class="rule-result">60 char max · optional · hard stop at limit</span></div>
+        <div class="rule"><span class="rule-trigger">Timer disarms only after user enters the check-in screen</span><span class="rule-result">not on notification tap · not on app open</span></div>
+        <div class="rule"><span class="rule-trigger">Avatar — no photo</span><span class="rule-result">first-name initial · color = latest mood</span></div>
+        <div class="rule"><span class="rule-trigger">Avatar — no mood yet</span><span class="rule-result">neutral default color</span></div>
+        <div class="rule"><span class="rule-trigger">Call action</span><span class="rule-result">native iOS dialer only · no in-app call</span></div>
+        <div class="rule"><span class="rule-trigger">Session persists after OTP</span><span class="rule-result">no re-auth required</span></div>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- ORGANS -->
-  <div class="col oc" id="col-organ">
-    <div class="badge bo"><span class="dot"></span>Layer 2 — Organs</div>
-    <div class="col-title">Module flows</div>
-    <div class="col-sub">5 modules. Engineers zoom in<br>without getting overwhelmed.</div>
-    <div class="mods">
-
-      <div class="mod">
-        <div class="mod-hd"><span class="mod-name">Flows 1–3 · Onboarding</span><span class="mod-ct">3 flows</span></div>
-        <div class="mod-steps">
-          <span class="ms">open app</span><span class="ms">enter phone</span><span class="ms">verify code</span><span class="ms">first name</span><span class="ms">mechanics</span><span class="ms">baseline check-in</span><span class="ms">home</span>
-        </div>
-        <div class="mod-note">New user route only · existing user skips to home</div>
-      </div>
-
-      <div class="mod">
-        <div class="mod-hd"><span class="mod-name">Flow 4 · Ritual check-in</span><span class="mod-ct">1 flow</span></div>
-        <div class="mod-steps">
-          <span class="ms">8–9PM EST window</span><span class="ms">ritual open state</span><span class="ms">select mood</span><span class="ms">say more (optional)</span><span class="ms">skip available</span><span class="ms">submit</span><span class="ms">store mood</span><span class="ms">notification</span>
-        </div>
-        <div class="mod-note">Say more: 60 char max · progress indicator · hard stop at limit · entering check-in → timer disarms · user can finish after 9PM · resets at 8PM next day</div>
-      </div>
-
-      <div class="mod">
-        <div class="mod-hd"><span class="mod-name">Circle · Core product</span><span class="mod-ct">1 flow</span></div>
-        <div class="mod-steps">
-          <span class="ms">view circle</span><span class="ms">see moods + status dot</span><span class="ms">filter</span><span class="ms">tap user</span>
-        </div>
-        <div class="mod-note">Status dot = user checked in this window · passive state outside window</div>
-      </div>
-
-      <div class="mod">
-        <div class="mod-hd"><span class="mod-name">Flow 5 · Journey + actions</span><span class="mod-ct">1 flow</span></div>
-        <div class="mod-steps">
-          <span class="ms">tap journey</span><span class="ms">mood history</span><span class="ms">triple dots</span><span class="ms">whose journey?</span><span class="ms">yours → settings</span><span class="ms">theirs → call / remove</span>
-        </div>
-        <div class="mod-note">Context-split at action sheet · remove is mutual</div>
-      </div>
-
-      <div class="mod">
-        <div class="mod-hd"><span class="mod-name">Flows 6–8 · Invite system</span><span class="mod-ct">3 flows</span></div>
-        <div class="mod-steps">
-          <span class="ms">sender generates link</span><span class="ms">SMS</span><span class="ms">receiver logged out</span><span class="ms">receiver logged in</span><span class="ms">auto-join</span>
-        </div>
-        <div class="mod-note">Link scoped to one circle · expires 7 days · mutual add</div>
-      </div>
-
+<!-- ═══════════════════════════════════
+     SECTION 3 — FULL SYSTEM
+═══════════════════════════════════ -->
+<div class="section" id="full-system">
+  <div class="fs-wrap">
+    <h1>Inpathy — <em>Full System</em></h1>
+    <div class="bs-meta" style="margin-top:12px">
+      <span class="pill pill-mvp">MVP</span>
+      <span class="pill pill-v">v1.0</span>
+      <span class="pill pill-date">March 2026</span>
     </div>
-  </div>
+    <div class="fs-desc">Complete product spec derived from FigJam system map. Source of truth for LLM-assisted implementation. Do not invent new product behavior — build only what is defined here.</div>
 
-  <!-- NERVES -->
-  <div class="col nc" id="col-nerve">
-    <div class="badge bn"><span class="dot"></span>Layer 3 — Nerves</div>
-    <div class="col-title">Edge cases</div>
-    <div class="col-sub">Decision branches + states eng<br>needs to handle explicitly.</div>
-    <div class="edges">
-
-      <div class="eg">
-        <div class="eg-name">Auth + session</div>
-        <div class="ei"><span class="et">Installed · session active</span><span class="er">skip auth → join</span></div>
-        <div class="ei"><span class="et">Installed · session expired</span><span class="er">auth → join</span></div>
-        <div class="ei"><span class="et">Not installed</span><span class="er">download → onboard → join</span></div>
-        <div class="ei"><span class="et">Existing user re-entry</span><span class="er">skip onboarding</span></div>
+    <!-- MVP CONSTRAINTS -->
+    <div class="fs-group">
+      <div class="fs-group-title">MVP Constraints</div>
+      <div class="rule-block">
+        <div class="rule-block h3" style="color:var(--nerve);font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px">Locked for MVP</div>
+        <div class="rb-item"><span class="rb-label">One circle per user</span><span class="rb-val">no multi-circle</span></div>
+        <div class="rb-item"><span class="rb-label">No in-app messaging</span><span class="rb-val">MVP scope</span></div>
+        <div class="rb-item"><span class="rb-label">Native call only</span><span class="rb-val">iOS dialer</span></div>
+        <div class="rb-item"><span class="rb-label">Circle relationships are mutual</span><span class="rb-val">add + remove both sides</span></div>
+        <div class="rb-item"><span class="rb-label">Invite links scoped to one circle</span><span class="rb-val">expire after 7 days</span></div>
+        <div class="rb-item"><span class="rb-label">Auto-join only after auth success</span><span class="rb-val">never on link tap or app open</span></div>
+        <div class="rb-item"><span class="rb-label">Session persists after OTP</span><span class="rb-val">stay logged in</span></div>
+        <div class="rb-item"><span class="rb-label">Signup: first name + phone only</span><span class="rb-val">minimum account object</span></div>
+        <div class="rb-item"><span class="rb-label">Check-ins cannot be edited or deleted</span><span class="rb-val">locked on submit</span></div>
+        <div class="rb-item"><span class="rb-label">One check-in per ritual window</span><span class="rb-val">server-side validation</span></div>
       </div>
-
-      <div class="eg">
-        <div class="eg-name">Invite link</div>
-        <div class="ei"><span class="et">Link expires after 7 days</span><span class="er">show expired state</span></div>
-        <div class="ei"><span class="et">Already in circle</span><span class="er">silent no-op → home</span></div>
-        <div class="ei"><span class="et">Auto-join</span><span class="er">only after auth</span></div>
-        <div class="ei"><span class="et">Mutual add / remove</span><span class="er">both sides · silent</span></div>
-      </div>
-
-      <div class="eg">
-        <div class="eg-name">Ritual entry rule</div>
-        <div class="ei"><span class="et">8:00–9:00 PM = entry window</span><span class="er">EST only</span></div>
-        <div class="ei"><span class="et">Timer disarms only after user enters the check-in screen</span><span class="er">not on tap · not on app open</span></div>
-        <div class="ei"><span class="et">User can complete after 9:00 PM</span><span class="er">once inside</span></div>
-        <div class="ei"><span class="et">Session resets at next 8:00 PM cycle</span><span class="er">daily</span></div>
-      </div>
-
-      <div class="eg">
-        <div class="eg-name">Status dot</div>
-        <div class="ei"><span class="et">Indicates user has checked in during current window</span><span class="er">resets each cycle</span></div>
-      </div>
-
-      <div class="eg">
-        <div class="eg-name">Avatar fallback</div>
-        <div class="ei"><span class="et">No photo uploaded</span><span class="er">first-name initial</span></div>
-        <div class="ei"><span class="et">Avatar color</span><span class="er">latest mood · updates on check-in</span></div>
-        <div class="ei"><span class="et">No mood yet</span><span class="er">neutral default</span></div>
-        <div class="ei"><span class="et">Photo uploaded</span><span class="er">overrides initial + color</span></div>
-      </div>
-
-      <div class="eg">
-        <div class="eg-name">MVP constraints</div>
-        <div class="ei"><span class="et">One circle per user</span><span class="er">no multi-circle</span></div>
-        <div class="ei"><span class="et">No in-app messaging</span><span class="er">MVP scope</span></div>
-        <div class="ei"><span class="et">Native call only</span><span class="er">iOS dialer</span></div>
-        <div class="ei"><span class="et">Settings — own journey only</span><span class="er">hidden on others</span></div>
-      </div>
-
     </div>
-  </div>
 
+    <!-- AUTH FLOWS -->
+    <div class="fs-group">
+      <div class="fs-group-title">Auth + Entry</div>
+      <div class="flow-block">
+        <h3>Entry decision</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">Open app</span></div>
+          <div class="fs-step"><span class="fs-step-label">Start a Circle OR Log In</span><span class="fs-step-note">both use same auth sequence</span></div>
+          <div class="fs-step"><span class="fs-step-label">Enter phone number</span></div>
+          <div class="fs-step"><span class="fs-step-label">Verifying number / OTP</span></div>
+          <div class="fs-step"><span class="fs-step-label">Enter verification code</span></div>
+          <div class="fs-step"><span class="fs-step-label">Validate code</span></div>
+          <div class="fs-step"><span class="fs-step-label">Existing user → Home</span><span class="fs-step-note">skip onboarding</span></div>
+          <div class="fs-step"><span class="fs-step-label">New user → onboarding flow</span><span class="fs-step-note">continue below</span></div>
+        </div>
+      </div>
+
+      <div class="flow-block">
+        <h3>New user onboarding</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">Enter first name</span><span class="fs-step-note">required · last name not required at signup</span></div>
+          <div class="fs-step"><span class="fs-step-label">Mechanics + Add to Circle</span><span class="fs-step-note">explain 8PM ritual · invite friends · skip OK</span></div>
+          <div class="fs-step"><span class="fs-step-label">Baseline check-in</span><span class="fs-step-note">"How are you feeling right now?" · mood required</span></div>
+          <div class="fs-step"><span class="fs-step-label">Say more (optional)</span><span class="fs-step-note">0–60 chars · skip available · progress indicator · hard stop</span></div>
+          <div class="fs-step"><span class="fs-step-label">Submit → store mood (baseline)</span><span class="fs-step-note">counts as ritual if signed up during window</span></div>
+          <div class="fs-step"><span class="fs-step-label">Route to Home / Circle Screen</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RITUAL -->
+    <div class="fs-group">
+      <div class="fs-group-title">Ritual Window Logic</div>
+      <div class="rule-block">
+        <div style="color:var(--nerve);font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px">Ritual entry rules</div>
+        <div class="rb-item"><span class="rb-label">Entry window</span><span class="rb-val">8:00–9:00 PM EST</span></div>
+        <div class="rb-item"><span class="rb-label">Timer disarms only after user enters check-in screen</span><span class="rb-val">not on notification tap · not on app open</span></div>
+        <div class="rb-item"><span class="rb-label">Once inside check-in screen</span><span class="rb-val">can finish after 9PM</span></div>
+        <div class="rb-item"><span class="rb-label">Missed window</span><span class="rb-val">resets at next 8PM cycle</span></div>
+        <div class="rb-item"><span class="rb-label">Outside window</span><span class="rb-val">show passive state · check-in unavailable</span></div>
+      </div>
+
+      <div class="flow-block">
+        <h3>Ritual check-in flow (active window)</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">Home / Circle Screen → Ritual Open State</span></div>
+          <div class="fs-step"><span class="fs-step-label">Select mood</span><span class="fs-step-note">required</span></div>
+          <div class="fs-step"><span class="fs-step-label">Say more (optional)</span><span class="fs-step-note">0–60 chars · skip available · progress indicator</span></div>
+          <div class="fs-step"><span class="fs-step-label">Submit</span></div>
+          <div class="fs-step"><span class="fs-step-label">Store mood</span></div>
+          <div class="fs-step"><span class="fs-step-label">Participation notification indicator active</span><span class="fs-step-note">resets daily at 8PM EST</span></div>
+          <div class="fs-step"><span class="fs-step-label">Trigger circle check-in notifications</span><span class="fs-step-note">fires immediately on submit</span></div>
+          <div class="fs-step"><span class="fs-step-label">Return to Home / Circle Screen</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CIRCLE + JOURNEY -->
+    <div class="fs-group">
+      <div class="fs-group-title">Circle Screen</div>
+      <div class="rule-block">
+        <div style="color:var(--nerve);font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px">Display rules</div>
+        <div class="rb-item"><span class="rb-label">Shows per person</span><span class="rb-val">name · avatar · current mood · status dot</span></div>
+        <div class="rb-item"><span class="rb-label">Say More / reflections</span><span class="rb-val">NOT shown on Circle · only in Journey</span></div>
+        <div class="rb-item"><span class="rb-label">Mood filter</span><span class="rb-val">available · user can filter by mood</span></div>
+        <div class="rb-item"><span class="rb-label">Status dot</span><span class="rb-val">checked in during current 8–9PM window</span></div>
+        <div class="rb-item"><span class="rb-label">Missed window</span><span class="rb-val">last mood stays visible · status dot resets</span></div>
+      </div>
+
+      <div class="flow-block">
+        <h3>Journey — own vs others</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">Tap person → open Journey</span></div>
+          <div class="fs-step"><span class="fs-step-label">Shows mood history + past Say More content</span></div>
+          <div class="fs-step"><span class="fs-step-label">Triple dots → whose journey?</span></div>
+          <div class="fs-step"><span class="fs-step-label">YOURS → Add to Circle · Settings · Cancel</span></div>
+          <div class="fs-step"><span class="fs-step-label">THEIRS → Call · Remove from Circle · Cancel</span></div>
+          <div class="fs-step"><span class="fs-step-label">Call → native iOS dialer only</span><span class="fs-step-note">no in-app calling</span></div>
+          <div class="fs-step"><span class="fs-step-label">Remove → mutual · both users removed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="fs-group">
+      <div class="fs-group-title">Settings + Profile</div>
+      <div class="flow-block">
+        <h3>Settings flow (own journey only)</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">Triple dots → Settings</span></div>
+          <div class="fs-step"><span class="fs-step-label">Edit Profile → first name · last name · photo</span></div>
+          <div class="fs-step"><span class="fs-step-label">Legal → Terms of Service · Privacy Policy</span><span class="fs-step-note">opens externally · returns to settings</span></div>
+          <div class="fs-step"><span class="fs-step-label">Sign Out → clear session → route to entry screen</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVITE -->
+    <div class="fs-group">
+      <div class="fs-group-title">Invite System</div>
+      <div class="flow-block">
+        <h3>Flow 6 — Invite sender</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">Tap Add to Circle → Select Contact</span></div>
+          <div class="fs-step"><span class="fs-step-label">Generate Custom Link</span></div>
+          <div class="fs-step"><span class="fs-step-label">Invite Link Created</span><span class="fs-step-note">unique per circle · scoped to one circle · expires 7 days · mutual add</span></div>
+          <div class="fs-step"><span class="fs-step-label">SMS Message</span></div>
+        </div>
+      </div>
+
+      <div class="flow-block">
+        <h3>Flow 7 — Invite receiver (logged out / new user)</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">Tap invite link</span></div>
+          <div class="fs-step"><span class="fs-step-label">App installed? YES → Open App → auth flow</span></div>
+          <div class="fs-step"><span class="fs-step-label">App installed? NO → Download App → Start a Circle flow</span></div>
+          <div class="fs-step"><span class="fs-step-label">Complete auth or onboarding</span></div>
+          <div class="fs-step"><span class="fs-step-label">Auto-join circle → mutual add</span><span class="fs-step-note">only after auth success</span></div>
+          <div class="fs-step"><span class="fs-step-label">Route to Home / Circle Screen</span></div>
+        </div>
+      </div>
+
+      <div class="flow-block">
+        <h3>Flow 8 — Join circle (logged in)</h3>
+        <div class="flow-steps">
+          <div class="fs-step"><span class="fs-step-label">Tap invite link → Open App</span></div>
+          <div class="fs-step"><span class="fs-step-label">Active session? YES → Auto-join circle</span><span class="fs-step-note">mutual add · silent</span></div>
+          <div class="fs-step"><span class="fs-step-label">Active session? NO → Route to Flow 7</span></div>
+          <div class="fs-step"><span class="fs-step-label">Route to Home / Circle Screen</span></div>
+        </div>
+      </div>
+
+      <div class="rule-block">
+        <div style="color:var(--nerve);font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px">Invite behavior rules</div>
+        <div class="rb-item"><span class="rb-label">Already in circle</span><span class="rb-val">silent no-op → home</span></div>
+        <div class="rb-item"><span class="rb-label">Session active</span><span class="rb-val">skip auth → join immediately</span></div>
+        <div class="rb-item"><span class="rb-label">Session expired</span><span class="rb-val">auth first → then join</span></div>
+        <div class="rb-item"><span class="rb-label">App not installed</span><span class="rb-val">onboarding first → then join</span></div>
+      </div>
+    </div>
+
+    <!-- DATA MODELS -->
+    <div class="fs-group">
+      <div class="fs-group-title">Data Models</div>
+      <div class="field-block">
+        <h3>User profile</h3>
+        <div class="fb-field"><span class="fb-name">userId</span><span class="fb-type">required</span></div>
+        <div class="fb-field"><span class="fb-name">phoneNumber</span><span class="fb-type">required</span></div>
+        <div class="fb-field"><span class="fb-name">firstName</span><span class="fb-type">required</span></div>
+        <div class="fb-field"><span class="fb-name">lastName</span><span class="fb-type">optional</span></div>
+        <div class="fb-field"><span class="fb-name">profilePhotoUrl</span><span class="fb-type">optional</span></div>
+        <div class="fb-field"><span class="fb-name">latestMood</span><span class="fb-type">derived</span></div>
+        <div class="fb-field"><span class="fb-name">latestMoodColor</span><span class="fb-type">derived</span></div>
+        <div class="fb-field"><span class="fb-name">createdAt</span><span class="fb-type">timestamp</span></div>
+        <div class="fb-field"><span class="fb-name">updatedAt</span><span class="fb-type">timestamp</span></div>
+      </div>
+
+      <div class="field-block">
+        <h3>Check-in object</h3>
+        <div class="fb-field"><span class="fb-name">checkInId</span><span class="fb-type">required</span></div>
+        <div class="fb-field"><span class="fb-name">userId</span><span class="fb-type">required</span></div>
+        <div class="fb-field"><span class="fb-name">mood</span><span class="fb-type">required</span></div>
+        <div class="fb-field"><span class="fb-name">sayMore</span><span class="fb-type">optional · max 60 chars</span></div>
+        <div class="fb-field"><span class="fb-name">createdAt</span><span class="fb-type">timestamp</span></div>
+        <div class="fb-field"><span class="fb-name">ritualCycleDate</span><span class="fb-type">date</span></div>
+        <div class="fb-field"><span class="fb-name">submittedDuringWindow</span><span class="fb-type">boolean</span></div>
+        <div class="fb-field"><span class="fb-name">isBaseline</span><span class="fb-type">boolean</span></div>
+      </div>
+
+      <div class="field-block">
+        <h3>Invite object</h3>
+        <div class="fb-field"><span class="fb-name">inviteId</span><span class="fb-type">required</span></div>
+        <div class="fb-field"><span class="fb-name">senderUserId</span><span class="fb-type">required</span></div>
+        <div class="fb-field"><span class="fb-name">circleRef</span><span class="fb-type">required</span></div>
+        <div class="fb-field"><span class="fb-name">token</span><span class="fb-type">required</span></div>
+        <div class="fb-field"><span class="fb-name">expiresAt</span><span class="fb-type">+7 days from creation</span></div>
+        <div class="fb-field"><span class="fb-name">createdAt</span><span class="fb-type">timestamp</span></div>
+        <div class="fb-field"><span class="fb-name">consumedAt</span><span class="fb-type">optional</span></div>
+      </div>
+    </div>
+
+    <!-- PRODUCT LANGUAGE -->
+    <div class="fs-group">
+      <div class="fs-group-title">Product Language</div>
+      <div class="lang-block">
+        <div class="lang-col lang-use">
+          <h3>Use these terms</h3>
+          <div class="lang-item">Mood</div>
+          <div class="lang-item">Say More</div>
+          <div class="lang-item">Circle</div>
+          <div class="lang-item">Journey</div>
+          <div class="lang-item">Add to Circle</div>
+          <div class="lang-item">Remove from Circle</div>
+        </div>
+        <div class="lang-col lang-no">
+          <h3>Never use</h3>
+          <div class="lang-item">Status</div>
+          <div class="lang-item">Reflection</div>
+          <div class="lang-item">Feed</div>
+          <div class="lang-item">Profile (as primary concept for Journey)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMPLEMENTATION PRIORITY -->
+    <div class="fs-group">
+      <div class="fs-group-title">Implementation Priority</div>
+      <div class="rule-block">
+        <div style="color:var(--nerve);font-size:11px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px">Build in this order</div>
+        <div class="rb-item"><span class="rb-label">1</span><span class="rb-val">Phone + OTP auth</span></div>
+        <div class="rb-item"><span class="rb-label">2</span><span class="rb-val">Ritual window logic</span></div>
+        <div class="rb-item"><span class="rb-label">3</span><span class="rb-val">Check-in submission</span></div>
+        <div class="rb-item"><span class="rb-label">4</span><span class="rb-val">Circle relationships</span></div>
+        <div class="rb-item"><span class="rb-label">5</span><span class="rb-val">Invite deep-link flow</span></div>
+        <div class="rb-item"><span class="rb-label">6</span><span class="rb-val">Notification triggers</span></div>
+        <div class="rb-item"><span class="rb-label">7</span><span class="rb-val">Editable profile</span></div>
+        <div class="rb-item"><span class="rb-label">8</span><span class="rb-val">Native call action only</span></div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <div class="ft">
-  <span class="ft-note">Inpathy Design System · Full system flow in FigJam · Techstars '23</span>
-  <span class="mvp">MVP scope</span>
+  <span class="ft-note">Inpathy · MVP v1.0 · March 2026 · Techstars '23</span>
+  <span class="pill pill-mvp">Handoff ready</span>
 </div>
 
 <script>
-function show(layer){
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  if(id==='system-map') tabs[0].classList.add('active');
+  else if(id==='backend') tabs[1].classList.add('active');
+  else if(id==='full-system') tabs[2].classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showLayer(layer){
   const s=document.getElementById('col-spine');
   const o=document.getElementById('col-organ');
   const n=document.getElementById('col-nerve');
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ts','to','tn','ta'));
-  if(layer==='all'){s.classList.remove('dim');o.classList.remove('dim');n.classList.remove('dim');document.querySelectorAll('.tab')[0].classList.add('ta')}
-  else if(layer==='spine'){s.classList.remove('dim');o.classList.add('dim');n.classList.add('dim');document.querySelectorAll('.tab')[1].classList.add('ts')}
-  else if(layer==='organ'){s.classList.add('dim');o.classList.remove('dim');n.classList.add('dim');document.querySelectorAll('.tab')[2].classList.add('to')}
-  else if(layer==='nerve'){s.classList.add('dim');o.classList.add('dim');n.classList.remove('dim');document.querySelectorAll('.tab')[3].classList.add('tn')}
+  document.querySelectorAll('.ltab').forEach(t=>t.classList.remove('lta','lts','lto','ltn'));
+  const tabs=document.querySelectorAll('.ltab');
+  if(layer==='all'){s.classList.remove('dim');o.classList.remove('dim');n.classList.remove('dim');tabs[0].classList.add('lta')}
+  else if(layer==='spine'){s.classList.remove('dim');o.classList.add('dim');n.classList.add('dim');tabs[1].classList.add('lts')}
+  else if(layer==='organ'){s.classList.add('dim');o.classList.remove('dim');n.classList.add('dim');tabs[2].classList.add('lto')}
+  else if(layer==='nerve'){s.classList.add('dim');o.classList.add('dim');n.classList.remove('dim');tabs[3].classList.add('ltn')}
 }
-show('all');
+showLayer('all');
 </script>
 </body>
 </html>
