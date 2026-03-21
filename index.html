@@ -307,7 +307,9 @@ body{min-height:100vh;overflow-x:hidden}
           <div class="eg-name">Ritual entry rule</div>
           <div class="ei"><span class="et">8:00–9:00 PM = entry window</span><span class="er">EST only</span></div>
           <div class="ei"><span class="et">Timer disarms only after user enters the check-in screen</span><span class="er">not on tap · not on app open</span></div>
+          <div class="ei"><span class="et">Entering the check-in screen creates a check-in session</span><span class="er">backend state · maps to checkin_session_started_at</span></div>
           <div class="ei"><span class="et">User can complete after 9:00 PM</span><span class="er">once inside</span></div>
+          <div class="ei"><span class="et">Valid submissions after 9PM (entered before 9PM) still trigger notifications</span><span class="er">no suppression</span></div>
           <div class="ei"><span class="et">Session resets at next 8:00 PM cycle</span><span class="er">daily</span></div>
         </div>
         <div class="eg">
@@ -715,11 +717,13 @@ body{min-height:100vh;overflow-x:hidden}
         <div class="rb-item"><span class="rb-label">window_open_at</span><span class="rb-val">8:00 PM EST</span></div>
         <div class="rb-item"><span class="rb-label">window_close_at</span><span class="rb-val">9:00 PM EST</span></div>
         <div class="rb-item"><span class="rb-label">User must enter check-in screen before window_close_at</span><span class="rb-val">required</span></div>
-        <div class="rb-item"><span class="rb-label">Create checkin_session_started_at when user enters check-in screen</span><span class="rb-val">timestamp</span></div>
+        <div class="rb-item"><span class="rb-label">Create checkin_session_started_at when user enters check-in screen</span><span class="rb-val">timestamp · entering screen = session start</span></div>
+        <div class="rb-item"><span class="rb-label">Entering the check-in screen creates a check-in session</span><span class="rb-val">this is what disarms the timer</span></div>
         <div class="rb-item"><span class="rb-label">Timer disarms only after checkin_session_started_at exists</span><span class="rb-val">not before</span></div>
         <div class="rb-item"><span class="rb-label">Notification tap alone</span><span class="rb-val">does NOT create check-in session</span></div>
         <div class="rb-item"><span class="rb-label">App open alone</span><span class="rb-val">does NOT create check-in session</span></div>
         <div class="rb-item"><span class="rb-label">checkin_session_started_at ≤ window_close_at</span><span class="rb-val">check-in valid until completed</span></div>
+        <div class="rb-item"><span class="rb-label">Valid submissions after 9PM (entered before 9PM) still trigger notifications</span><span class="rb-val">no suppression logic</span></div>
         <div class="rb-item"><span class="rb-label">User enters after 9:00 PM EST</span><span class="rb-val">new check-in blocked until next cycle</span></div>
       </div>
 
