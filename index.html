@@ -118,13 +118,13 @@ body{min-height:100vh;overflow-x:hidden}
     <div class="loop">
       <div class="step"><span class="sn">01</span><div class="sc-inner"><div class="sname">Open app</div><div class="snote">Session check on launch</div></div></div>
       <div class="arr">↓</div>
-      <div class="step"><span class="sn">02</span><div class="sc-inner"><div class="sname">Check in</div><div class="snote">5–10 sec · select mood · submit</div></div></div>
+      <div class="step"><span class="sn">02</span><div class="sc-inner"><div class="sname">Check in</div><div class="snote">Select mood · say more (optional) · submit</div></div></div>
       <div class="arr">↓</div>
-      <div class="step"><span class="sn">03</span><div class="sc-inner"><div class="sname">View circle</div><div class="snote">See your people + their status</div></div></div>
+      <div class="step"><span class="sn">03</span><div class="sc-inner"><div class="sname">View circle</div><div class="snote">See your people + their mood</div></div></div>
       <div class="arr">↓</div>
       <div class="step"><span class="sn">04</span><div class="sc-inner"><div class="sname">Tap a user</div><div class="snote">Open their journey</div></div></div>
       <div class="arr">↓</div>
-      <div class="step"><span class="sn">05</span><div class="sc-inner"><div class="sname">Take action</div><div class="snote">Call · add to circle · remove</div></div></div>
+      <div class="step"><span class="sn">05</span><div class="sc-inner"><div class="sname">Take action</div><div class="snote">Call · remove</div></div></div>
       <div class="loop-close"><span class="lc-icon">↻</span><span class="lc-txt">Returns to circle screen · daily ritual</span></div>
     </div>
   </div>
@@ -133,7 +133,7 @@ body{min-height:100vh;overflow-x:hidden}
   <div class="col oc" id="col-organ">
     <div class="badge bo"><span class="dot"></span>Layer 2 — Organs</div>
     <div class="col-title">Module flows</div>
-    <div class="col-sub">4 modules. Engineers zoom in<br>without getting overwhelmed.</div>
+    <div class="col-sub">5 modules. Engineers zoom in<br>without getting overwhelmed.</div>
     <div class="mods">
 
       <div class="mod">
@@ -147,9 +147,17 @@ body{min-height:100vh;overflow-x:hidden}
       <div class="mod">
         <div class="mod-hd"><span class="mod-name">Flow 4 · Ritual check-in</span><span class="mod-ct">1 flow</span></div>
         <div class="mod-steps">
-          <span class="ms">8–9PM EST window</span><span class="ms">ritual open state</span><span class="ms">select mood</span><span class="ms">optional share</span><span class="ms">submit</span><span class="ms">store mood</span><span class="ms">notification</span>
+          <span class="ms">8–9PM EST window</span><span class="ms">ritual open state</span><span class="ms">select mood</span><span class="ms">say more (optional)</span><span class="ms">skip available</span><span class="ms">submit</span><span class="ms">store mood</span><span class="ms">notification</span>
         </div>
-        <div class="mod-note">Passive state shown outside ritual window</div>
+        <div class="mod-note">Say more: 60 char max · progress indicator · hard stop · entering check-in disarms timer · user can finish after 9PM · resets at 8PM next day</div>
+      </div>
+
+      <div class="mod">
+        <div class="mod-hd"><span class="mod-name">Circle · Core product</span><span class="mod-ct">1 flow</span></div>
+        <div class="mod-steps">
+          <span class="ms">view circle</span><span class="ms">see moods + status dot</span><span class="ms">filter</span><span class="ms">tap user</span>
+        </div>
+        <div class="mod-note">Status dot = user checked in this window · passive state outside window</div>
       </div>
 
       <div class="mod">
@@ -189,24 +197,22 @@ body{min-height:100vh;overflow-x:hidden}
       <div class="eg">
         <div class="eg-name">Invite link</div>
         <div class="ei"><span class="et">Link expires after 7 days</span><span class="er">show expired state</span></div>
-        <div class="ei"><span class="et">Receiver already in circle</span><span class="er">silent no-op → home</span></div>
-        <div class="ei"><span class="et">Link scoped to one circle</span><span class="er">no cross-circle join</span></div>
-        <div class="ei"><span class="et">Mutual add — both sides</span><span class="er">silent · no confirm</span></div>
+        <div class="ei"><span class="et">Already in circle</span><span class="er">silent no-op → home</span></div>
+        <div class="ei"><span class="et">Auto-join after auth</span><span class="er">never before</span></div>
+        <div class="ei"><span class="et">Mutual add / remove</span><span class="er">both sides · silent</span></div>
       </div>
 
       <div class="eg">
-        <div class="eg-name">Ritual window</div>
-        <div class="ei"><span class="et">Opens outside 8–9PM EST</span><span class="er">passive state</span></div>
-        <div class="ei"><span class="et">Misses ritual window</span><span class="er">opens 8PM next day</span></div>
-        <div class="ei"><span class="et">Participation notification</span><span class="er">disappears after 8PM EST</span></div>
+        <div class="eg-name">Ritual entry rule</div>
+        <div class="ei"><span class="et">8:00–9:00 PM = entry window</span><span class="er">EST only</span></div>
+        <div class="ei"><span class="et">Entering check-in disarms timer</span><span class="er">no time pressure</span></div>
+        <div class="ei"><span class="et">Can complete after 9PM</span><span class="er">once inside</span></div>
+        <div class="ei"><span class="et">Missed window</span><span class="er">resets at next 8PM</span></div>
       </div>
 
       <div class="eg">
-        <div class="eg-name">Circle actions</div>
-        <div class="ei"><span class="et">Remove from circle</span><span class="er">mutual · both sides</span></div>
-        <div class="ei"><span class="et">Call action</span><span class="er">native iOS dialer</span></div>
-        <div class="ei"><span class="et">One circle per user (MVP)</span><span class="er">no multi-circle</span></div>
-        <div class="ei"><span class="et">Settings — own journey only</span><span class="er">hidden on others</span></div>
+        <div class="eg-name">Status dot</div>
+        <div class="ei"><span class="et">Indicates user has checked in during current window</span><span class="er">resets each cycle</span></div>
       </div>
 
       <div class="eg">
@@ -215,6 +221,14 @@ body{min-height:100vh;overflow-x:hidden}
         <div class="ei"><span class="et">Avatar color</span><span class="er">latest mood · updates on check-in</span></div>
         <div class="ei"><span class="et">No mood yet</span><span class="er">neutral default</span></div>
         <div class="ei"><span class="et">Photo uploaded</span><span class="er">overrides initial + color</span></div>
+      </div>
+
+      <div class="eg">
+        <div class="eg-name">MVP constraints</div>
+        <div class="ei"><span class="et">One circle per user</span><span class="er">no multi-circle</span></div>
+        <div class="ei"><span class="et">No in-app messaging</span><span class="er">MVP scope</span></div>
+        <div class="ei"><span class="et">Native call only</span><span class="er">iOS dialer</span></div>
+        <div class="ei"><span class="et">Settings — own journey only</span><span class="er">hidden on others</span></div>
       </div>
 
     </div>
