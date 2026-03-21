@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inpathy — Backend Spec</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d10;--bg2:#13131a;--bg3:#1c1c26;
+  --border:rgba(255,255,255,0.07);--border-hi:rgba(255,255,255,0.14);
+  --text:#f0ede8;--muted:#7a7887;--dim:#3a3848;
+  --green:#8ecfb0;--green-bg:rgba(142,207,176,0.07);--green-bd:rgba(142,207,176,0.18);
+  --purple:#c8b8f5;--purple-bg:rgba(200,184,245,0.07);--purple-bd:rgba(200,184,245,0.18);
+  --amber:#f5c897;--amber-bg:rgba(245,200,151,0.07);--amber-bd:rgba(245,200,151,0.18);
+  --red:#f5a0a0;--red-bg:rgba(245,160,160,0.07);--red-bd:rgba(245,160,160,0.18);
+}
+html{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;max-width:900px;margin:0 auto;padding:0 24px 80px}
+
+/* HEADER */
+.hd{padding:56px 0 40px;border-bottom:1px solid var(--border);margin-bottom:48px}
+.hd h1{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;line-height:1.1;letter-spacing:-0.3px}
+.hd h1 em{font-style:italic;color:var(--purple)}
+.hd-meta{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.pill{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px;font-family:'DM Mono',monospace}
+.pill-mvp{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}
+.pill-v{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bd)}
+.pill-date{background:rgba(255,255,255,0.04);color:var(--muted);border:1px solid var(--border)}
+.hd-desc{margin-top:16px;font-size:13px;color:var(--muted);font-family:'DM Mono',monospace;line-height:1.7;padding:12px 16px;border-left:2px solid var(--purple);background:var(--purple-bg);border-radius:0 6px 6px 0;max-width:600px}
+
+/* SECTION */
+.section{margin-bottom:40px}
+.section-label{display:inline-flex;align-items:center;gap:7px;padding:3px 10px 3px 7px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;font-family:'DM Mono',monospace}
+.section-label .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.sl-auth{background:var(--purple-bg);color:var(--purple)}.sl-auth .dot{background:var(--purple)}
+.sl-checkin{background:var(--green-bg);color:var(--green)}.sl-checkin .dot{background:var(--green)}
+.sl-circle{background:var(--amber-bg);color:var(--amber)}.sl-circle .dot{background:var(--amber)}
+.sl-notif{background:var(--red-bg);color:var(--red)}.sl-notif .dot{background:var(--red)}
+.sl-endpoints{background:rgba(255,255,255,0.04);color:var(--muted);border:1px solid var(--border)}.sl-endpoints .dot{background:var(--muted)}
+
+.section-title{font-family:'DM Serif Display',serif;font-size:20px;font-weight:400;margin-bottom:16px;color:var(--text)}
+
+/* DECISION CARDS */
+.cards{display:flex;flex-direction:column;gap:8px}
+.card{border-radius:10px;padding:14px 18px;display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.card-q{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;flex:1;line-height:1.6}
+.card-a{font-size:12px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0;text-align:right}
+.card-note{font-size:10px;font-family:'DM Mono',monospace;margin-top:4px;opacity:.6;line-height:1.5}
+
+.ca{background:var(--purple-bg);border:1px solid var(--purple-bd)}.ca .card-a{color:var(--purple)}
+.cc{background:var(--green-bg);border:1px solid var(--green-bd)}.cc .card-a{color:var(--green)}
+.cj{background:var(--amber-bg);border:1px solid var(--amber-bd)}.cj .card-a{color:var(--amber)}
+.cn{background:var(--red-bg);border:1px solid var(--red-bd)}.cn .card-a{color:var(--red)}
+
+/* ENDPOINTS */
+.endpoints{display:flex;flex-direction:column;gap:6px}
+.ep{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;display:flex;align-items:baseline;gap:12px}
+.ep-method{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.06em;min-width:40px;flex-shrink:0}
+.ep-post{color:var(--green)}.ep-get{color:var(--purple)}
+.ep-path{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);flex:1}
+.ep-desc{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-align:right;flex-shrink:0}
+
+/* RULES */
+.rules{display:flex;flex-direction:column;gap:6px}
+.rule{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;display:flex;align-items:baseline;gap:12px}
+.rule-trigger{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);flex:1;line-height:1.5}
+.rule-result{font-family:'DM Mono',monospace;font-size:11px;color:var(--amber);text-align:right;flex-shrink:0}
+
+/* DIVIDER */
+.divider{border:none;border-top:1px solid var(--border);margin:40px 0}
+
+/* FOOTER */
+.ft{border-top:1px solid var(--border);padding:20px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:48px}
+.ft-note{font-size:10px;color:var(--dim);font-family:'DM Mono',monospace}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <h1>Inpathy — <em>Backend Spec</em></h1>
+  <div class="hd-meta">
+    <span class="pill pill-mvp">MVP</span>
+    <span class="pill pill-v">v1.0</span>
+    <span class="pill pill-date">March 2026</span>
+  </div>
+  <div class="hd-desc">Inpathy is a daily emotional check-in system designed to reduce friction and increase awareness between people who care about each other. This document defines all locked backend decisions for MVP implementation.</div>
+</div>
+
+<!-- AUTH + USER -->
+<div class="section">
+  <div class="section-label sl-auth"><span class="dot"></span>Auth + User</div>
+  <div class="section-title">Authentication decisions</div>
+  <div class="cards">
+    <div class="card ca">
+      <div>
+        <div class="card-q">Q1 · Stay logged in after phone + OTP verification?</div>
+        <div class="card-note">Determines session persistence · affects re-auth UX</div>
+      </div>
+      <div class="card-a">YES</div>
+    </div>
+    <div class="card ca">
+      <div>
+        <div class="card-q">Q2 · Required fields at signup?</div>
+        <div class="card-note">First name + phone number · minimum account object</div>
+      </div>
+      <div class="card-a">YES — first name + phone</div>
+    </div>
+    <div class="card ca">
+      <div>
+        <div class="card-q">Q3 · Can users edit name and photo after signup?</div>
+        <div class="card-note">First name · last name (optional) · profile photo · editable post-signup</div>
+      </div>
+      <div class="card-a">YES</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CHECK-IN -->
+<div class="section">
+  <div class="section-label sl-checkin"><span class="dot"></span>Check-in</div>
+  <div class="section-title">Check-in decisions</div>
+  <div class="cards">
+    <div class="card cc">
+      <div>
+        <div class="card-q">Q4 · Can users edit or delete a check-in after submitting?</div>
+        <div class="card-note">Once submitted — mood is locked · no edit · no delete</div>
+      </div>
+      <div class="card-a">NO</div>
+    </div>
+    <div class="card cc">
+      <div>
+        <div class="card-q">Q5 · One check-in per ritual window max?</div>
+        <div class="card-note">User can only submit once during 8–9PM window · no duplicates</div>
+      </div>
+      <div class="card-a">ONCE</div>
+    </div>
+    <div class="card cc">
+      <div>
+        <div class="card-q">Q6 · User signs up during ritual window — does check-in count?</div>
+        <div class="card-note">e.g. signs up at 8:15PM → baseline check-in counts as today's ritual</div>
+      </div>
+      <div class="card-a">YES — counts as today's</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CIRCLE + JOURNEY -->
+<div class="section">
+  <div class="section-label sl-circle"><span class="dot"></span>Circle + Journey</div>
+  <div class="section-title">Circle + journey decisions</div>
+  <div class="cards">
+    <div class="card cj">
+      <div>
+        <div class="card-q">Q7 · If user misses the window — does last mood stay visible?</div>
+        <div class="card-note">Last mood persists on Circle screen · no blank state · status dot resets</div>
+      </div>
+      <div class="card-a">YES — last mood stays</div>
+    </div>
+    <div class="card cj">
+      <div>
+        <div class="card-q">Q8 · What does the status dot mean?</div>
+        <div class="card-note">Appears when user submits mood during 8–9PM window · resets each cycle</div>
+      </div>
+      <div class="card-a">Checked in today 8–9PM</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- NOTIFICATIONS -->
+<div class="section">
+  <div class="section-label sl-notif"><span class="dot"></span>Notifications</div>
+  <div class="section-title">Notification decisions</div>
+  <div class="cards">
+    <div class="card cn">
+      <div>
+        <div class="card-q">Q9 · Does 8PM reminder go to everyone or only unchecked users?</div>
+        <div class="card-note">Send to all users · no filtering by check-in status</div>
+      </div>
+      <div class="card-a">EVERYONE</div>
+    </div>
+    <div class="card cn">
+      <div>
+        <div class="card-q">Q10 · Notify users when someone in circle checks in?</div>
+        <div class="card-note">In-circle check-in notification is MVP · build now</div>
+      </div>
+      <div class="card-a">YES — MVP</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- API ENDPOINTS -->
+<div class="section">
+  <div class="section-label sl-endpoints"><span class="dot"></span>API Endpoints</div>
+  <div class="section-title">Derived from locked decisions</div>
+  <div class="endpoints">
+    <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/auth/phone</span><span class="ep-desc">send OTP to phone number</span></div>
+    <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/auth/verify</span><span class="ep-desc">validate OTP · return session token</span></div>
+    <div class="ep"><span class="ep-method ep-get">GET</span><span class="ep-path">/auth/session</span><span class="ep-desc">check active session validity</span></div>
+    <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/auth/signout</span><span class="ep-desc">clear session token</span></div>
+    <div class="ep"><span class="ep-method ep-get">GET</span><span class="ep-path">/user/profile</span><span class="ep-desc">fetch user profile</span></div>
+    <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/user/profile</span><span class="ep-desc">update name · photo</span></div>
+    <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/checkin</span><span class="ep-desc">submit mood · say more · timestamp</span></div>
+    <div class="ep"><span class="ep-method ep-get">GET</span><span class="ep-path">/checkin/window</span><span class="ep-desc">check if ritual window is active</span></div>
+    <div class="ep"><span class="ep-method ep-get">GET</span><span class="ep-path">/circle</span><span class="ep-desc">fetch members · latest mood · status dot</span></div>
+    <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/circle/invite</span><span class="ep-desc">generate custom link · set 7-day expiry</span></div>
+    <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/circle/join</span><span class="ep-desc">auto-join · mutual add · after auth only</span></div>
+    <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/circle/remove</span><span class="ep-desc">mutual remove · both sides</span></div>
+    <div class="ep"><span class="ep-method ep-get">GET</span><span class="ep-path">/journey/:userId</span><span class="ep-desc">fetch mood history · ordered newest first</span></div>
+    <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/notifications/send</span><span class="ep-desc">8PM ritual reminder · all users</span></div>
+    <div class="ep"><span class="ep-method ep-post">POST</span><span class="ep-path">/notifications/checkin</span><span class="ep-desc">notify circle when member checks in</span></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SYSTEM RULES -->
+<div class="section">
+  <div class="section-label sl-endpoints"><span class="dot"></span>System Rules</div>
+  <div class="section-title">Behavior eng must enforce</div>
+  <div class="rules">
+    <div class="rule"><span class="rule-trigger">One circle per user</span><span class="rule-result">no multi-circle in MVP</span></div>
+    <div class="rule"><span class="rule-trigger">All circle relationships are mutual</span><span class="rule-result">add = both added · remove = both removed</span></div>
+    <div class="rule"><span class="rule-trigger">Auto-join only after auth success</span><span class="rule-result">never before token is confirmed</span></div>
+    <div class="rule"><span class="rule-trigger">Invite link valid for 7 days</span><span class="rule-result">show expired state after cutoff</span></div>
+    <div class="rule"><span class="rule-trigger">Receiver already in circle</span><span class="rule-result">silent no-op · land on home</span></div>
+    <div class="rule"><span class="rule-trigger">Check-in locked after submit</span><span class="rule-result">no edit · no delete</span></div>
+    <div class="rule"><span class="rule-trigger">One check-in per ritual window</span><span class="rule-result">validate server-side · reject duplicates</span></div>
+    <div class="rule"><span class="rule-trigger">Signup during ritual window</span><span class="rule-result">baseline check-in counts as today's ritual</span></div>
+    <div class="rule"><span class="rule-trigger">Missed ritual window</span><span class="rule-result">last mood stays visible · status dot resets</span></div>
+    <div class="rule"><span class="rule-trigger">Say more field</span><span class="rule-result">60 char max · optional · hard stop at limit</span></div>
+    <div class="rule"><span class="rule-trigger">Entering check-in → timer disarms</span><span class="rule-result">user can finish after 9PM once inside</span></div>
+    <div class="rule"><span class="rule-trigger">Avatar — no photo</span><span class="rule-result">first-name initial · color = latest mood</span></div>
+    <div class="rule"><span class="rule-trigger">Avatar — no mood yet</span><span class="rule-result">neutral default color</span></div>
+    <div class="rule"><span class="rule-trigger">Call action</span><span class="rule-result">native iOS dialer only · no in-app call</span></div>
+    <div class="rule"><span class="rule-trigger">Session persists after OTP</span><span class="rule-result">no re-auth required</span></div>
+  </div>
+</div>
+
+<div class="ft">
+  <span class="ft-note">Inpathy MVP · Backend Spec v1.0 · March 2026 · Techstars '23</span>
+  <span class="pill pill-mvp">Handoff ready</span>
+</div>
+
+</body>
+</html>
